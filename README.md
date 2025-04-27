@@ -23,10 +23,10 @@ npm install @manoelfernandes/validate
 ## 🚀 Usage
 
 ```js
-import Validate from "@manoelfernandes/validate";
+const Validate = require("@manoelfernandes/validate").default
 
-// or, if using CommonJS (Node)
-const Validate = require("@manoelfernandes/validate");
+// For ES Modules:
+// import Validate from '@manoelfernandes/validate';
 
 Validate.check(123, "number");             // ✅ true
 Validate.check("hello", "string");         // ✅ true
