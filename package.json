@@ -1,0 +1,26 @@
+{
+  "name": "@manoelfernandes/validate",
+  "version": "1.0.0",
+  "description": "A simple and lightweight vanilla JavaScript library for type validation of primitive values (number, string, boolean, bigint, undefined, null, and symbol).",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [
+    "validate",
+    "validation",
+    "types",
+    "javascript",
+    "primitives",
+    "type-check"
+  ],
+  "author": "Manoel Fernandes",
+  "license": "MIT",
+  "devDependencies": {
+    "vitest": "^3.1.2"
+  },
+  "type": "module"
+}
