@@ -12,11 +12,15 @@ It helps ensure that data from both external and internal sources conforms to th
 npm install @manoelfernandes/validate
 ```
 
-### Deno  
-*Support coming soon after GitHub publishing.*
+### Deno
+```js
+import Validate from "https://raw.githubusercontent.com/Manoel-Fernandes/Validate/main/src/validate.js";
+```
 
 ### Frontend (via CDN)  
-*CDN link will be available once the project is published on GitHub.*
+```html
+<script src="https://unpkg.com/@manoelfernandes/validate@1.0.1/src/validate.js"></script>
+```
 
 ---
 
@@ -32,8 +36,8 @@ Validate.check(123, "number");             // ✅ true
 Validate.check("hello", "string");         // ✅ true
 Validate.check(true, "boolean");           // ✅ true
 
-Validate.check("123", "number");           // ❌ error
-Validate.check(undefined, "string");       // ❌ error
+Validate.check("123", "number");           // ❌ error (Invalid value: expected a "number", received "string")
+Validate.check(undefined, "string");       // ❌ error (Invalid value: expected a "string", received "undefined")
 ```
 
 ---
@@ -62,8 +66,13 @@ Invalid value: expected a "number", received "string"
 
 ## 🧪 Tests
 
-This library was tested using [Vitest](https://vitest.dev/).  
-To run the tests:
+This library was tested locally using Vitest, with over 90 unit tests.
+All tests passed successfully, ensuring:
+
+- ✅ Correct behavior for valid inputs
+- ❌ Proper error handling for invalid inputs
+
+> Note: Test files were not included in the published package on GitHub or npm.
 
 ```bash
 npm run test
