@@ -19,7 +19,7 @@ import Validate from "https://raw.githubusercontent.com/Manoel-Fernandes/Validat
 
 ### Frontend (via CDN)  
 ```html
-<script src="https://unpkg.com/@manoelfernandes/validate@1.0.1/src/validate.js"></script>
+<script src="https://unpkg.com/@manoelfernandes/validate@1.1.0/src/validate.js"></script>
 ```
 
 ---
@@ -55,7 +55,7 @@ Validate.check("hello world", "number");           // ❌ error (Invalid value: 
 With silent mode you can now do checks like this
 
 ```js
-if(Validate.check(userName, "string"){
+if(Validate.check(userName, "string")){
 	// if it is true
 }else{
 	// if it is false
