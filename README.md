@@ -74,10 +74,6 @@ All tests passed successfully, ensuring:
 
 > Note: Test files were not included in the published package on GitHub or npm.
 
-```bash
-npm run test
-```
-
 ---
 
 ## 📈 Roadmap
