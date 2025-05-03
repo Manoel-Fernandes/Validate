@@ -36,8 +36,30 @@ Validate.check(123, "number");             // ✅ true
 Validate.check("hello", "string");         // ✅ true
 Validate.check(true, "boolean");           // ✅ true
 
-Validate.check("123", "number");           // ❌ error (Invalid value: expected a "number", received "string")
-Validate.check(undefined, "string");       // ❌ error (Invalid value: expected a "string", received "undefined")
+Validate.check("123", "number");           // ❌ false
+Validate.check(undefined, "string");       // ❌ false
+```
+
+## Silent mode
+
+Silent mode has been introduced in the library and it is active by default, so using the library without disabling silent mode will only return false instead of returning an error message.
+
+⚠️ This update will be available on npm from May 5th
+
+```js
+Validate.silent(false);
+
+Validate.check("hello world", "number");           // ❌ error (Invalid value: expected a "number", received "string")
+```
+
+With silent mode you can now do checks like this
+
+```js
+if(Validate.check(userName, "string"){
+	// if it is true
+}else{
+	// if it is false
+}
 ```
 
 ---
