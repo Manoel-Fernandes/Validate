@@ -100,7 +100,7 @@ All tests passed successfully, ensuring:
 
 ## 📈 Roadmap
 
-- [ ] Silent mode (no error messages, only returns `false`)
+- [x] Silent mode (no error messages, only returns `false`)
 - [ ] Option validation:
   ```js
   Validate.checkOption("single", ["single", "married", "divorced"]);
