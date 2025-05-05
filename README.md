@@ -1,7 +1,9 @@
 # 🧪 Validate
 
-**Validate** is a simple and lightweight library for validating primitive types in JavaScript.  
-It helps ensure that data from both external and internal sources conforms to the expected type before being used.
+![npm](https://img.shields.io/npm/v/@manoelfernandes/validate)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+**Validate** is a simple and lightweight library for validating primitive types in JavaScript. It was originally created to solve a personal need for safely validating input data, and to prevent bugs caused by JavaScript's lack of strict typing. It helps ensure that values from both external and internal sources match the expected types before being used.
 
 ---
 
@@ -40,7 +42,7 @@ Validate.check("123", "number");           // ❌ false
 Validate.check(undefined, "string");       // ❌ false
 ```
 
-## Silent mode
+## 🔕 Silent Mode (default)
 
 Silent mode has been introduced in the library and it is active by default, so using the library without disabling silent mode will only return false instead of returning an error message.
 
@@ -88,24 +90,51 @@ Invalid value: expected a "number", received "string"
 
 ## 🧪 Tests
 
-This library was tested locally using Vitest, with over 90 unit tests.
-All tests passed successfully, ensuring:
+This library has been thoroughly tested using **Vitest**, with over 90 unit tests to ensure its robustness. The tests cover a wide range of scenarios, validating the following:
 
-- ✅ Correct behavior for valid inputs
-- ❌ Proper error handling for invalid inputs
+* ✅ **Correct behavior for valid inputs**
+* ❌ **Proper error handling for invalid inputs**
 
-> Note: Test files were not included in the published package on GitHub or npm.
+The test files can be found in the [GitHub repository](https://github.com/Manoel-Fernandes/Validate) and are not included in the published package on npm.
+
+### Running the Tests Locally
+
+To run the tests on your local machine, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone git@github.com:Manoel-Fernandes/Validate.git
+   ```
+
+2. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the tests using Vitest:
+
+   ```bash
+   npm run test
+   ```
+
+> **Note:** If you don't have Vitest installed, you can install it globally with:
+>
+> ```bash
+> npm install vitest
+> ```
 
 ---
 
 ## 📈 Roadmap
 
-- [x] Silent mode (no error messages, only returns `false`)
+- ✅ Silent mode (no error messages, only returns `false`)
 - [ ] Option validation:
   ```js
   Validate.checkOption("single", ["single", "married", "divorced"]);
   ```
-- [ ] Support for numeric and date ranges (e.g., `Validate.checkRange(10, { from: 1, to: 100 })`)
+- [ ] Support for numeric and date ranges (e.g., `Validate.checkRange(25, { from: 18, to: 65 })`)
 
 ---
 
@@ -113,7 +142,8 @@ All tests passed successfully, ensuring:
 
 MIT © [Manoel Fernandes](https://github.com/manoelfernandes)
 
----
 
-![npm](https://img.shields.io/npm/v/@manoelfernandes/validate)
-![License](https://img.shields.io/badge/license-MIT-green)
+
+
+
+

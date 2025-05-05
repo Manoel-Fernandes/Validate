@@ -71,7 +71,7 @@ class Validate{
 	}
 	
 	#errorMessage(expected, received){
-		throw new Error(`Invalid value: expected a "${expected}", received "${received}"`)
+		throw new Error(`Invalid value: expected "${expected}", received "${received}"`)
 	}
 	
 	silent(mode){
