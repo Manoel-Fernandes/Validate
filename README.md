@@ -46,7 +46,6 @@ Validate.check(undefined, "string");       // ❌ false
 
 Silent mode has been introduced in the library and it is active by default, so using the library without disabling silent mode will only return false instead of returning an error message.
 
-⚠️ This update will be available on npm from May 5th
 
 ```js
 Validate.silent(false);

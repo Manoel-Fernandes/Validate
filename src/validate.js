@@ -75,7 +75,11 @@ class Validate{
 	}
 	
 	silent(mode){
-		this.#silent = mode
+		if(this.#validateBoolean(mode)){
+			this.#silent = mode
+		}else{
+			this.#errorMessage("boolean", typeof mode);
+		}
 	}
 	
 	check(content, type){

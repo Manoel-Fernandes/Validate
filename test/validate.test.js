@@ -371,15 +371,30 @@ describe("Validate silent mode return with false value", () => {
 		Validate.silent(true);
 		const waitFalse = Validate.check("hello", "number");
 		expect(waitFalse).toBe(false);
-	})
+	});
 	it("Should return false value", () => {
 		Validate.silent(true);
 		const waitFalse = Validate.check(123, "string");
 		expect(waitFalse).toBe(false);
-	})
+	});
 	it("Should return false value", () => {
 		Validate.silent(true);
 		const waitFalse = Validate.check(123n, "null");
 		expect(waitFalse).toBe(false);
-	})
+	});
+})
+
+
+/////////////////////   Silent mode   ////////////////////////
+
+describe("Validate value received by silent mode", () => {
+	it("Should return error with silent input", () => {
+		expect(() => Validate.silent("hello")).toThrow(/Invalid value: expected "boolean", received "string"/);
+	});
+	it("Should return error with silent input", () => {
+		expect(() => Validate.silent(123n)).toThrow(/Invalid value: expected "boolean", received "bigint"/);
+	});
+	it("Should not return error with silent input", () => {
+		expect(() => Validate.silent(false)).not.toThrow();
+	});
 })
