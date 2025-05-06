@@ -1,6 +1,6 @@
 {
   "name": "@manoelfernandes/validate",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A simple and lightweight vanilla JavaScript library for type validation of primitive values (number, string, boolean, bigint, undefined, null, and symbol).",
   "main": "src/index.js",
   "directories": {

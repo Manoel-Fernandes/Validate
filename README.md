@@ -21,7 +21,7 @@ import Validate from "https://raw.githubusercontent.com/Manoel-Fernandes/Validat
 
 ### Frontend (via CDN)  
 ```html
-<script src="https://unpkg.com/@manoelfernandes/validate@1.1.0/src/validate.js"></script>
+<script src="https://unpkg.com/@manoelfernandes/validate@1.1.1/src/validate.js"></script>
 ```
 
 ---
