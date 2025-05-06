@@ -50,7 +50,7 @@ Silent mode has been introduced in the library and it is active by default, so u
 ```js
 Validate.silent(false);
 
-Validate.check("hello world", "number");           // ❌ error (Invalid value: expected a "number", received "string")
+Validate.check("hello world", "number");           // ❌ error (Invalid value: expected "number", received "string")
 ```
 
 With silent mode you can now do checks like this
@@ -61,6 +61,14 @@ if(Validate.check(userName, "string")){
 }else{
 	// if it is false
 }
+```
+
+If silent mode receives a value other than a boolean it will throw an error.
+
+```js
+Validate.silent("true");
+
+// ❌ error (Invalid value: expected "boolean", received "string")
 ```
 
 ---
@@ -89,7 +97,7 @@ Invalid value: expected a "number", received "string"
 
 ## 🧪 Tests
 
-This library has been thoroughly tested using **Vitest**, with over 90 unit tests to ensure its robustness. The tests cover a wide range of scenarios, validating the following:
+This library has been thoroughly tested using **Vitest**, with over 100 unit tests to ensure its robustness. The tests cover a wide range of scenarios, validating the following:
 
 * ✅ **Correct behavior for valid inputs**
 * ❌ **Proper error handling for invalid inputs**
