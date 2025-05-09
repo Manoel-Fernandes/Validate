@@ -21,7 +21,7 @@ import Validate from "https://raw.githubusercontent.com/Manoel-Fernandes/Validat
 
 ### Frontend (via CDN)  
 ```html
-<script src="https://unpkg.com/@manoelfernandes/validate@1.1.1/src/validate.js"></script>
+<script src="https://unpkg.com/@manoelfernandes/validate@1.2.0/src/validate.js"></script>
 ```
 
 ---
@@ -82,6 +82,8 @@ Validate.silent("true");
 - `"undefined"`
 - `"null"`
 - `"symbol"`
+- `"array"`
+- `"object"`
 
 ---
 

@@ -1,6 +1,6 @@
 /*
  * author: Manoel Fernandes
- * version: 1.1.1
+ * version: 1.2.0
  * license: MIT
  * */
 class Validate{
@@ -8,91 +8,117 @@ class Validate{
 	
 	#validateNumber(content){
 		if(typeof content === "number" && isNaN(content)){
-			if(this.#silent == true) return false;
-			this.#errorMessage("number", "NaN");
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "number", "NaN");
 		}
 		if(content === Infinity || content === -Infinity){
-			if(this.#silent == true) return false;
-			this.#errorMessage("number", content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "number", content);
 		}
 		if(typeof content !== "number"){
-			if(this.#silent == true) return false;
-			this.#errorMessage("number", typeof content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "number", typeof content);
 		}
 		return true;
 	}
 	
 	#validateString(content){
 		if(typeof content !== "string"){
-			if(this.#silent == true) return false;
-			this.#errorMessage("string", typeof content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "string", typeof content);
 		}
 		return true;
 	}
 	
 	#validateBoolean(content){
 		if(typeof content !== "boolean"){
-			if(this.#silent == true) return false;
-			this.#errorMessage("boolean", typeof content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "boolean", typeof content);
 		}
 		return true;
 	}
 	
 	#validateBigInt(content){
 		if(typeof content !== "bigint"){
-			if(this.#silent == true) return false;
-			this.#errorMessage("bigint", typeof content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "bigint", typeof content);
 		}
 		return true;
 	}
 	
 	#validateUndefined(content){
 		if(typeof content !== "undefined"){
-			if(this.#silent == true) return false;
-			this.#errorMessage("undefined", typeof content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "undefined", typeof content);
 		}
 		return true;
 	}
 	
 	#validateNull(content){
 		if(content !== null){
-			if(this.#silent == true) return false;
-			this.#errorMessage("null", typeof content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "null", typeof content);
 		}
 		return true;
 	}
 	
 	#validateSymbol(content){
 		if(typeof content !== "symbol"){
-			if(this.#silent == true) return false;
-			this.#errorMessage("symbol", typeof content);
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "symbol", typeof content);
 		}
 		return true;
 	}
 	
-	#errorMessage(expected, received){
-		throw new Error(`Invalid value: expected "${expected}", received "${received}"`)
+	#validateArray(content){
+		if(!Array.isArray(content)){
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "array", typeof content);
+		}
+		return true;
+	}
+	
+	#validateObject(content){
+		if(typeof content !== "object" || content === null || Array.isArray(content)){
+			if(this.#silent === true) return false;
+			this.#errorMessage("error", "object", typeof content);
+		}
+		return true;
+	}
+	
+	#errorMessage(type, expected, received){
+		if(type === "input"){
+			throw new Error(`Please, inform a type to be checked`);
+		}
+		if(type === "invalid"){
+			throw new Error(`Invalid type value, please read README.md for usage details.`);
+		}
+		if(type === "error"){
+			throw new Error(`Invalid value: expected "${expected}", received "${received}"`);
+		}
 	}
 	
 	silent(mode){
 		if(this.#validateBoolean(mode)){
 			this.#silent = mode
 		}else{
-			this.#errorMessage("boolean", typeof mode);
+			this.#errorMessage("error", "boolean", typeof mode);
 		}
 	}
 	
 	check(content, type){
 		if(type === null || type === undefined){
-			throw new Error(`Please, inform a type to be checked`);
+			this.#errorMessage("input");
 		}
 		
 		let checked;
 		const getType = type.toLowerCase();
 		
-		if(getType !== "number" && getType !== "string" && getType !== "boolean" && getType !== "bigint" && getType !== "undefined" && getType !== "null" && getType !== "symbol"){
-			throw new Error(`Invalid type value, please read README.md for usage details.`);
-		}
+		const validInput = ["number", "string", "boolean", "bigint", "undefined", "null", "symbol", "array", "object"];
+		
+		if(!validInput.includes(getType)){
+			this.#errorMessage("invalid");
+		};
 		
 		switch(getType){
 			case "number":
@@ -115,11 +141,16 @@ class Validate{
 			break;
 			case "symbol":
 			checked = this.#validateSymbol(content);
+			break;
+			case "array":
+			checked = this.#validateArray(content);
+			break;
+			case "object":
+			checked = this.#validateObject(content);
+			break;
 		}
 		return checked;
 	}
 }
 
-
 export default new Validate();
-

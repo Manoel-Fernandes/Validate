@@ -363,6 +363,98 @@ describe("Validate Symbol Value", ()=>{
 });
 
 
+/////////////////   Arrays   ////////////////////////
+
+describe("Validate Array Value", ()=>{
+	// array
+	it("Should validate an array", ()=>{
+		expect(() => Validate.check(["foo", "bar"], "array")).not.toThrow();
+	});
+	it("Should validate an array", ()=>{
+		const waitTrue = Validate.check(["foo", "bar"], "array");
+		expect(waitTrue).toBe(true);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check(123, "array")).toThrow(/Invalid value: expected "array", received "number"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check("123", "array")).toThrow(/Invalid value: expected "array", received "string"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check(true, "array")).toThrow(/Invalid value: expected "array", received "boolean"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check({}, "array")).toThrow(/Invalid value: expected "array", received "object"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check(null, "array")).toThrow(/Invalid value: expected "array", received "object"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check(Infinity, "array")).toThrow(/Invalid value: expected "array", received "number"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check(-Infinity, "array")).toThrow(/Invalid value: expected "array", received "number"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check(Symbol(), "array")).toThrow(/Invalid value: expected "array", received "symbol"/);
+	});
+	it("Should return error when validate an array", () =>{
+		expect(()=> Validate.check(123n, "array")).toThrow(/Invalid value: expected "array", received "bigint"/);
+	});
+	it("Should return error when validate a array", () =>{
+		expect(()=> {let x; Validate.check(x, "array");}).toThrow(/Invalid value: expected "array", received "undefined"/);
+	});
+	it("Should return error when validate a array", () =>{
+		expect(()=> Validate.check(NaN, "array")).toThrow(/Invalid value: expected "array", received "number"/);
+	});
+});
+
+
+/////////////////   Object   //////////////////////
+
+describe("Validate Object Value", ()=>{
+	// object
+	it("Should validate an object", ()=>{
+		expect(() => Validate.check({}, "object")).not.toThrow();
+	});
+	it("Should validate an object", ()=>{
+		const waitTrue = Validate.check({}, "object");
+		expect(waitTrue).toBe(true);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(123, "object")).toThrow(/Invalid value: expected "object", received "number"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check("123", "object")).toThrow(/Invalid value: expected "object", received "string"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(true, "object")).toThrow(/Invalid value: expected "object", received "boolean"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(Symbol(), "object")).toThrow(/Invalid value: expected "object", received "symbol"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(null, "object")).toThrow(/Invalid value: expected "object", received "object"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(Infinity, "object")).toThrow(/Invalid value: expected "object", received "number"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(-Infinity, "object")).toThrow(/Invalid value: expected "object", received "number"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check([], "object")).toThrow(/Invalid value: expected "object", received "object"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(123n, "object")).toThrow(/Invalid value: expected "object", received "bigint"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> {let x; Validate.check(x, "object");}).toThrow(/Invalid value: expected "object", received "undefined"/);
+	});
+	it("Should return error when validate an object", () =>{
+		expect(()=> Validate.check(NaN, "object")).toThrow(/Invalid value: expected "object", received "number"/);
+	});
+});
 
 ////////////////   False values returned   /////////////////////
 
@@ -398,3 +490,4 @@ describe("Validate value received by silent mode", () => {
 		expect(() => Validate.silent(false)).not.toThrow();
 	});
 })
+
