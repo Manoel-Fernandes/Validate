@@ -2,6 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/@manoelfernandes/validate)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Test Status](https://github.com/Manoel-Fernandes/Validate/actions/workflows/node.js.yml/badge.svg)
 
 **Validate** is a simple and lightweight library for validating primitive types in JavaScript. It was originally created to solve a personal need for safely validating input data, and to prevent bugs caused by JavaScript's lack of strict typing. It helps ensure that values from both external and internal sources match the expected types before being used.
 
@@ -99,7 +100,7 @@ Invalid value: expected a "number", received "string"
 
 ## 🧪 Tests
 
-This library has been thoroughly tested using **Vitest**, with over 100 unit tests to ensure its robustness. The tests cover a wide range of scenarios, validating the following:
+This library has been thoroughly tested using **Vitest**, with over 130 unit tests to ensure its robustness. The tests cover a wide range of scenarios, validating the following:
 
 * ✅ **Correct behavior for valid inputs**
 * ❌ **Proper error handling for invalid inputs**
@@ -144,6 +145,12 @@ To run the tests on your local machine, follow these steps:
   Validate.checkOption("single", ["single", "married", "divorced"]);
   ```
 - [ ] Support for numeric and date ranges (e.g., `Validate.checkRange(25, { from: 18, to: 65 })`)
+
+---
+
+## 📦 Changelog
+
+All notable changes are documented in the [CHANGELOG.md](https://github.com/Manoel-Fernandes/Validate/blob/main/CHANGELOG.md).
 
 ---
 
