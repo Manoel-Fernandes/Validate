@@ -3,6 +3,9 @@
 ![npm](https://img.shields.io/npm/v/@manoelfernandes/validate)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Test Status](https://github.com/Manoel-Fernandes/Validate/actions/workflows/node.js.yml/badge.svg)
+![bundle size](https://img.shields.io/bundlephobia/minzip/@manoelfernandes/validate)
+![npm downloads](https://img.shields.io/npm/dw/@manoelfernandes/validate)
+
 
 **Validate** is a simple and lightweight library for validating primitive types in JavaScript. It was originally created to solve a personal need for safely validating input data, and to prevent bugs caused by JavaScript's lack of strict typing. It helps ensure that values from both external and internal sources match the expected types before being used.
 
@@ -22,7 +25,7 @@ import Validate from "https://raw.githubusercontent.com/Manoel-Fernandes/Validat
 
 ### Frontend (via CDN)  
 ```html
-<script src="https://unpkg.com/@manoelfernandes/validate@1.2.0/src/validate.js"></script>
+<script src="https://unpkg.com/@manoelfernandes/validate@1.2.1/src/validate.js"></script>
 ```
 
 ---
@@ -100,7 +103,7 @@ Invalid value: expected a "number", received "string"
 
 ## 🧪 Tests
 
-This library has been thoroughly tested using **Vitest**, with over 130 unit tests to ensure its robustness. The tests cover a wide range of scenarios, validating the following:
+This library has been thoroughly tested using **Vitest**, with over 135 unit tests to ensure its robustness. The tests cover a wide range of scenarios, validating the following:
 
 * ✅ **Correct behavior for valid inputs**
 * ❌ **Proper error handling for invalid inputs**

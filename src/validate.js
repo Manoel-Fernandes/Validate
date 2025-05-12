@@ -1,6 +1,6 @@
 /*
  * author: Manoel Fernandes
- * version: 1.2.0
+ * version: 1.2.1
  * license: MIT
  * */
 class Validate{
@@ -9,15 +9,15 @@ class Validate{
 	#validateNumber(content){
 		if(typeof content === "number" && isNaN(content)){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "number", "NaN");
+			this.#errorMessage("error", "Number", content);
 		}
 		if(content === Infinity || content === -Infinity){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "number", content);
+			this.#errorMessage("error", "Number", content);
 		}
 		if(typeof content !== "number"){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "number", typeof content);
+			this.#errorMessage("error", "Number", content);
 		}
 		return true;
 	}
@@ -25,7 +25,7 @@ class Validate{
 	#validateString(content){
 		if(typeof content !== "string"){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "string", typeof content);
+			this.#errorMessage("error", "String", content);
 		}
 		return true;
 	}
@@ -33,7 +33,7 @@ class Validate{
 	#validateBoolean(content){
 		if(typeof content !== "boolean"){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "boolean", typeof content);
+			this.#errorMessage("error", "Boolean", content);
 		}
 		return true;
 	}
@@ -41,7 +41,7 @@ class Validate{
 	#validateBigInt(content){
 		if(typeof content !== "bigint"){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "bigint", typeof content);
+			this.#errorMessage("error", "BigInt", content);
 		}
 		return true;
 	}
@@ -49,7 +49,7 @@ class Validate{
 	#validateUndefined(content){
 		if(typeof content !== "undefined"){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "undefined", typeof content);
+			this.#errorMessage("error", "Undefined", content);
 		}
 		return true;
 	}
@@ -57,7 +57,7 @@ class Validate{
 	#validateNull(content){
 		if(content !== null){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "null", typeof content);
+			this.#errorMessage("error", "Null", content);
 		}
 		return true;
 	}
@@ -65,7 +65,7 @@ class Validate{
 	#validateSymbol(content){
 		if(typeof content !== "symbol"){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "symbol", typeof content);
+			this.#errorMessage("error", "Symbol", content);
 		}
 		return true;
 	}
@@ -73,7 +73,7 @@ class Validate{
 	#validateArray(content){
 		if(!Array.isArray(content)){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "array", typeof content);
+			this.#errorMessage("error", "Array", content);
 		}
 		return true;
 	}
@@ -81,12 +81,23 @@ class Validate{
 	#validateObject(content){
 		if(typeof content !== "object" || content === null || Array.isArray(content)){
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "object", typeof content);
+			this.#errorMessage("error", "Object", content);
 		}
 		return true;
 	}
 	
+	#identifyType(content){
+		if(Array.isArray(content)) return "Array";
+		if(content === null) return "Null";
+		if(content === Infinity) return "Infinity";
+		if(content === -Infinity) return "-Infinity";
+		if(typeof content === "number" && isNaN(content)) return "NaN";
+		if(typeof content === "bigint") return "BigInt";
+		return false;
+	}
+	
 	#errorMessage(type, expected, received){
+		const getType = this.#identifyType(received);
 		if(type === "input"){
 			throw new Error(`Please, inform a type to be checked`);
 		}
@@ -94,7 +105,10 @@ class Validate{
 			throw new Error(`Invalid type value, please read README.md for usage details.`);
 		}
 		if(type === "error"){
-			throw new Error(`Invalid value: expected "${expected}", received "${received}"`);
+			if(getType !== false){
+				throw new Error(`Invalid value: expected "${expected}", received "${getType}"`);
+			}
+			throw new Error(`Invalid value: expected "${expected}", received "${(typeof received).charAt(0).toUpperCase() + (typeof received).slice(1)}"`);
 		}
 	}
 	
@@ -102,7 +116,7 @@ class Validate{
 		if(this.#validateBoolean(mode)){
 			this.#silent = mode
 		}else{
-			this.#errorMessage("error", "boolean", typeof mode);
+			this.#errorMessage("error", "Boolean", mode);
 		}
 	}
 	
