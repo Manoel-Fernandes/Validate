@@ -7,4 +7,3 @@
 	- [checkOptions()](checkOptions.md)
 	- [checkRange()](checkRange.md)
 	- [silent()](silent.md)
-- [Changelog](CHANGELOG.md)
