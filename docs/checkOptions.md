@@ -46,7 +46,8 @@ Validate.checkOptions(20, [5, 10, 15]);                               // ❌ fal
 * It **does not support deep comparison** of objects, arrays, or custom structures.
 
 ```js
-Validate.checkOptions([1, 2], [[1, 2], [3, 4]]); // ❌ false (no deep comparison)
+Validate.checkOptions([1, 2], [[1, 2], [3, 4]]); 
+// ❌ Value received is not a valid value in checkOptions. Please read README.md for usage details.
 ```
 
 ---
@@ -58,5 +59,5 @@ If silent mode is disabled (`Validate.silent(false)`), and the value is not foun
 ```js
 Validate.silent(false);
 Validate.checkOptions("unknown", ["yes", "no"]);
-// ❌ Error: Invalid option: expected one of ["yes","no"], received "unknown"
+// ❌ Error: Value "unknown" was not found on array.
 ```

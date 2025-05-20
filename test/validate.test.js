@@ -24,7 +24,7 @@ describe("Validate input", ()=>{
 		expect(() => Validate.check("string")).toThrow(/Please, inform a type to be checked/);
 	});
 	it("Should return error from input", () => {
-		expect(() => Validate.check(20, "integer")).toThrow(/Invalid type value, please read README.md for usage details./);
+		expect(() => Validate.check(20, "integer")).toThrow(/Invalid type value. Please read README.md for usage details./);
 	});
 	it("Should return error from input", () => {
 		expect(() => Validate.check("",)).toThrow(/Please, inform a type to be checked/);
@@ -503,3 +503,143 @@ describe("Validate value received by silent mode", () => {
 	});
 })
 
+
+///////////////////   Check Options   ///////////////////////
+
+describe("Validate checkOptions", () => {
+	it("Should not to throw", () => {
+		expect(() => Validate.checkOptions("married", ["single", "married", "divorced"])).not.toThrow();
+	});
+	it("Should return true", () => {
+		let waitTrue = Validate.checkOptions("married", ["single", "married", "divorced"]);
+		expect(waitTrue).toBe(true);
+	});
+	it("Should return false", () => {
+		Validate.silent(true);
+		let waitFalse = Validate.checkOptions("cat", ["lion", "tiger", "bird"]);
+		expect(waitFalse).toBe(false);
+	});
+	it("Should return false", () => {
+		let waitTrue = Validate.checkOptions(45, [28, 32, 57]);
+		expect(waitTrue).toBe(false);
+	});
+	it("Should return true", () => {
+		let waitTrue = Validate.checkOptions(32, [28, 32, 57]);
+		expect(waitTrue).toBe(true);
+	});
+	it("Should return false", () => {
+		let waitTrue = Validate.checkOptions(18n, [22n, 35n, 40n]);
+		expect(waitTrue).toBe(false);
+	});
+	it("Should return true", () => {
+		let waitTrue = Validate.checkOptions(22n, [22n, 35n, 40n]);
+		expect(waitTrue).toBe(true);
+	});
+	it("Should return true", () => {
+		let waitTrue = Validate.checkOptions(true, [false, true]);
+		expect(waitTrue).toBe(true);
+	});
+	it("Should return true", () => {
+		let waitTrue = Validate.checkOptions(Infinity, [350, 400, 457, Infinity]);
+		expect(waitTrue).toBe(true);
+	});
+	
+	it("Should return not found error", () => {
+		Validate.silent(false);
+		expect(() => Validate.checkOptions("other", ["single", "married", "divorced"])).toThrow(/Value "other" was not found on array./);
+	});
+	it("Should return not found error", () => {
+		expect(() => Validate.checkOptions("cat", ["lion", "tiger", "bird"])).toThrow(/Value "cat" was not found on array./);
+	});
+	it("Should return not found error", () => {
+		expect(() => Validate.checkOptions(45, [28, 32, 57])).toThrow(/Value "45" was not found on array./);
+	});
+	it("Should return not found error", () => {
+		expect(() => Validate.checkOptions(18n, [22n, 35n, 40n])).toThrow(/Value "18" was not found on array./);
+	});
+	
+	it("Should return invalid input error", () => {
+		expect(() => Validate.checkOptions(null, ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+	});
+	it("Should return invalid input error", () => {
+		expect(() => Validate.checkOptions(undefined, ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+	});
+	it("Should return invalid input error", () => {
+		expect(() => Validate.checkOptions([], ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+	});
+	it("Should return invalid input error", () => {
+		expect(() => Validate.checkOptions({}, ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+	});
+	it("Should return invalid input error", () => {
+		expect(() => Validate.checkOptions(Symbol("hello"), ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+	});
+	
+	it("Should return input error", () => {
+		expect(() => Validate.checkOptions("hello", {})).toThrow(/Invalid value. Waiting an array to check the options./);
+	});
+	it("Should return input error", () => {
+		expect(() => Validate.checkOptions("hello", 25)).toThrow(/Invalid value. Waiting an array to check the options./);
+	});
+	it("Should return input error", () => {
+		expect(() => Validate.checkOptions("hello", "foo")).toThrow(/Invalid value. Waiting an array to check the options./);
+	});
+})
+
+
+//////////////////   Check Range   ////////////////////
+
+describe("Validating checkRange", () => {
+	it("Should not to throw", () => {
+		expect(() => Validate.checkRange(28, {from: 18, to: 65})).not.toThrow();
+	});
+	it("Should return true", () => {
+		let waitTrue = Validate.checkRange(47, {from: 25, to: 88});
+		expect(waitTrue).toBe(true);
+	});
+	it("Should return true", () => {
+		let start = new Date("2020-5-1").getTime();
+		let end = new Date("2030-5-1").getTime()
+		let waitTrue = Validate.checkRange(new Date().getTime(), {from: start, to: end});
+		expect(waitTrue).toBe(true);
+	});
+	
+	// This test will fail if the hour is less than 6 o'clock and greater of 22 o'clock
+	it("Should return true/false", () => {
+		let hour = new Date().getHours();
+		let waitTrue = Validate.checkRange(hour, {from: 6, to: 22});
+		expect(waitTrue).toBe(true);
+	});
+	//////
+	
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange(77, {from: 18, to: 65})).toThrow(/The value "77" is outside range values./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange("77", {from: 18, to: 65})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange({}, {from: 18, to: 65})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange([], {from: 18, to: 65})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange(21, "")).toThrow(/Invalid value on checkRange. Waiting an object with "from" and "to" to be checked./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange(21, 42)).toThrow(/Invalid value on checkRange. Waiting an object with "from" and "to" to be checked./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange(21, {to: 56})).toThrow(/The key "from" was not found in object./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange(21, {from: 35})).toThrow(/The key "to" was not found in object./);
+	});
+	
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange(21, {from: "16", to: 56})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+	});
+	it("Should to throw", () => {
+		expect(() => Validate.checkRange(21, {from: 18, to: "27"})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+	});
+})

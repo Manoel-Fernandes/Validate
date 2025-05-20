@@ -1,10 +1,17 @@
 /*
  * author: Manoel Fernandes
- * version: 1.2.1
+ * version: 1.3.0
  * license: MIT
  * */
 class Validate{
 	#silent = true;
+	
+	silent(mode){
+		if(!this.#validateBoolean(mode)){
+			this.#errorMessage("error", "Boolean", mode);
+		}
+		this.#silent = mode
+	}
 	
 	#validateNumber(content){
 		if(typeof content === "number" && isNaN(content)){
@@ -102,7 +109,7 @@ class Validate{
 			throw new Error(`Please, inform a type to be checked`);
 		}
 		if(type === "invalid"){
-			throw new Error(`Invalid type value, please read README.md for usage details.`);
+			throw new Error(`Invalid type value. Please read README.md for usage details.`);
 		}
 		if(type === "error"){
 			if(getType !== false){
@@ -110,13 +117,29 @@ class Validate{
 			}
 			throw new Error(`Invalid value: expected "${expected}", received "${(typeof received).charAt(0).toUpperCase() + (typeof received).slice(1)}"`);
 		}
-	}
-	
-	silent(mode){
-		if(this.#validateBoolean(mode)){
-			this.#silent = mode
-		}else{
-			this.#errorMessage("error", "Boolean", mode);
+		if(type === "option"){
+			throw new Error(`Value "${expected}" was not found on array.`);
+		}
+		if(type === "invalid-option"){
+			throw new Error(`Value received is not a valid value in checkOptions. Please read README.md for usage details.`);
+		}
+		if(type === "array"){
+			throw new Error(`Invalid value. Waiting an array to check the options.`);
+		}
+		if(type === "range"){
+			throw new Error(`The value "${expected}" is outside range values.`);
+		}
+		if(type === "invalid-range"){
+			throw new Error(`Value received is not a valid value in checkRange. This method accept only numbers.`);
+		}
+		if(type === "invalid-object"){
+			throw new Error(`Invalid value on checkRange. Waiting an object with "from" and "to" to be checked.`);
+		}
+		if(type === "invalid-from"){
+			throw new Error(`The key "from" was not found in object.`);
+		}
+		if(type === "invalid-to"){
+			throw new Error(`The key "to" was not found in object.`);
 		}
 	}
 	
@@ -164,6 +187,58 @@ class Validate{
 			break;
 		}
 		return checked;
+	}
+	
+	checkOptions(value, content){
+		const validInput = ["string", "number", "bigint", "boolean", "Infinity", "-Infinity"];
+		
+		if(!validInput.includes(typeof value) && !validInput.includes(value)){
+			this.#errorMessage("invalid-option");
+		}
+		if(typeof value === "number" && isNaN(value)){
+			this.#errorMessage("invalid-option");
+		}
+		if(!Array.isArray(content)){
+			this.#errorMessage("array");
+		}
+		if(!content.includes(value)){
+			if(this.#silent === true) return false;
+			this.#errorMessage("option", value);
+		}
+		return true;
+	}
+	
+	#isInvalidNumber(content){
+		if(typeof content !== "bigint" && typeof content !== "number" || typeof content === "number" && isNaN(content)){
+			return true
+		}
+		return false;
+	}
+	
+	checkRange(value, range){
+		if(this.#isInvalidNumber(value)){
+			this.#errorMessage("invalid-range");
+		}
+		if(typeof range !== "object"){
+			this.#errorMessage("invalid-object");
+		}
+		if(!Object.keys(range).includes("from")){
+			this.#errorMessage("invalid-from");
+		}
+		if(!Object.keys(range).includes("to")){
+			this.#errorMessage("invalid-to");
+		}
+		if(this.#isInvalidNumber(range.from)){
+			this.#errorMessage("invalid-range");
+		}
+		if(this.#isInvalidNumber(range.to)){
+			this.#errorMessage("invalid-range");
+		}
+		if(value < range.from || value > range.to){
+			if(this.#silent === true) return false;
+			this.#errorMessage("range", value);
+		}
+		return true;
 	}
 }
 
