@@ -5,90 +5,104 @@
  * */
 class Validate{
 	#silent = true;
+	#logMessages = [];
+	#maxSize = 10;
 	
 	silent(mode){
 		if(!this.#validateBoolean(mode)){
-			this.#errorMessage("error", "Boolean", mode);
+			this.#logError("error", "Boolean", mode);
+			this.#showErrorMessage("error", "Boolean", mode);
 		}
 		this.#silent = mode
 	}
 	
 	#validateNumber(content){
 		if(typeof content === "number" && isNaN(content)){
+			this.#logError("error", "Number", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Number", content);
+			this.#showErrorMessage("error", "Number", content);
 		}
 		if(content === Infinity || content === -Infinity){
+			this.#logError("error", "Number", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Number", content);
+			this.#showErrorMessage("error", "Number", content);
 		}
 		if(typeof content !== "number"){
+			this.#logError("error", "Number", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Number", content);
+			this.#showErrorMessage("error", "Number", content);
 		}
 		return true;
 	}
 	
 	#validateString(content){
 		if(typeof content !== "string"){
+			this.#logError("error", "String", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "String", content);
+			this.#showErrorMessage("error", "String", content);
 		}
 		return true;
 	}
 	
 	#validateBoolean(content){
 		if(typeof content !== "boolean"){
+			this.#logError("error", "Boolean", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Boolean", content);
+			this.#showErrorMessage("error", "Boolean", content);
 		}
 		return true;
 	}
 	
 	#validateBigInt(content){
 		if(typeof content !== "bigint"){
+			this.#logError("error", "BigInt", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "BigInt", content);
+			this.#showErrorMessage("error", "BigInt", content);
 		}
 		return true;
 	}
 	
 	#validateUndefined(content){
 		if(typeof content !== "undefined"){
+			this.#logError("error", "Undefined", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Undefined", content);
+			this.#showErrorMessage("error", "Undefined", content);
 		}
 		return true;
 	}
 	
 	#validateNull(content){
 		if(content !== null){
+			this.#logError("error", "Null", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Null", content);
+			this.#showErrorMessage("error", "Null", content);
 		}
 		return true;
 	}
 	
 	#validateSymbol(content){
 		if(typeof content !== "symbol"){
+			this.#logError("error", "Symbol", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Symbol", content);
+			this.#showErrorMessage("error", "Symbol", content);
 		}
 		return true;
 	}
 	
 	#validateArray(content){
 		if(!Array.isArray(content)){
+			this.#logError("error", "Array", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Array", content);
+			this.#showErrorMessage("error", "Array", content);
 		}
 		return true;
 	}
 	
 	#validateObject(content){
 		if(typeof content !== "object" || content === null || Array.isArray(content)){
+			this.#logError("error", "Object", content);
 			if(this.#silent === true) return false;
-			this.#errorMessage("error", "Object", content);
+			this.#showErrorMessage("error", "Object", content);
 		}
 		return true;
 	}
@@ -103,59 +117,85 @@ class Validate{
 		return false;
 	}
 	
-	#errorMessage(type, expected, received){
+	#errorMessage(code, expected, received){
+		let message;
+		const inputError = {
+			100 : `Please, inform a type to be checked`,
+			101 : `Invalid type value. Please read README.md for usage details.`,
+			102 : `Value received is not a valid value in checkOptions. Please read README.md for usage details.`,
+			103 : `Invalid value. Waiting an array to check the options.`,
+			104 : `Value received is not a valid value in checkRange. This method accept only numbers.`,
+			105 : `Invalid value on checkRange. Waiting an object with "from" and "to" to be checked.`,
+			106 : `The key "from" was not found in object.`,
+			107 : `The key "to" was not found in object.`
+		}
+		const badValidation = {
+			200 : `Invalid value: expected "${expected}", received "${received}"`,
+			201 : `Value "${expected}" was not found on array.`,
+			202 : `The value "${expected}" is outside range values.`
+		}
+		code < 200 ? (message = Object.values(inputError)[code - 100]) : (message = Object.values(badValidation)[code - 200]);
+		return message;
+	}
+	
+	#logError(type, expected, received){
+		let receivedType;
+		let message;
 		const getType = this.#identifyType(received);
-		if(type === "input"){
-			throw new Error(`Please, inform a type to be checked`);
+		getType !== false ? (receivedType = getType) : (receivedType = (typeof received).charAt(0).toUpperCase() + (typeof received).slice(1));
+		if(type === "input") message = this.#errorMessage(100, expected, receivedType);
+		if(type === "invalid") message = this.#errorMessage(101, expected, receivedType);
+		if(type === "error") message = this.#errorMessage(200, expected, receivedType);
+		if(type === "option") message = this.#errorMessage(201, expected, receivedType);
+		if(type === "invalid-option") message = this.#errorMessage(102, expected, receivedType);
+		if(type === "array") message = this.#errorMessage(103, expected, receivedType);
+		if(type === "range") message = this.#errorMessage(202, expected, receivedType);
+		if(type === "invalid-range") message = this.#errorMessage(104, expected, receivedType);
+		if(type === "invalid-object") message = this.#errorMessage(105, expected, receivedType);
+		if(type === "invalid-from") message = this.#errorMessage(106, expected, receivedType);
+		if(type === "invalid-to") message = this.#errorMessage(107, expected, receivedType);
+		message = `Error: ${message} - ${new Date().toISOString()}`
+		if(this.#logMessages.length >= this.#maxSize){
+			this.#logMessages.shift();
 		}
-		if(type === "invalid"){
-			throw new Error(`Invalid type value. Please read README.md for usage details.`);
-		}
-		if(type === "error"){
-			if(getType !== false){
-				throw new Error(`Invalid value: expected "${expected}", received "${getType}"`);
-			}
-			throw new Error(`Invalid value: expected "${expected}", received "${(typeof received).charAt(0).toUpperCase() + (typeof received).slice(1)}"`);
-		}
-		if(type === "option"){
-			throw new Error(`Value "${expected}" was not found on array.`);
-		}
-		if(type === "invalid-option"){
-			throw new Error(`Value received is not a valid value in checkOptions. Please read README.md for usage details.`);
-		}
-		if(type === "array"){
-			throw new Error(`Invalid value. Waiting an array to check the options.`);
-		}
-		if(type === "range"){
-			throw new Error(`The value "${expected}" is outside range values.`);
-		}
-		if(type === "invalid-range"){
-			throw new Error(`Value received is not a valid value in checkRange. This method accept only numbers.`);
-		}
-		if(type === "invalid-object"){
-			throw new Error(`Invalid value on checkRange. Waiting an object with "from" and "to" to be checked.`);
-		}
-		if(type === "invalid-from"){
-			throw new Error(`The key "from" was not found in object.`);
-		}
-		if(type === "invalid-to"){
-			throw new Error(`The key "to" was not found in object.`);
-		}
+		this.#logMessages.push(message);
+	}
+	
+	getLastError(){
+		return this.#logMessages[this.#maxSize - 1];
+	}
+	
+	maxErrorSize(size){
+		this.#maxSize = size;
+	}
+	
+	getErrors(){
+		return this.#logMessages;
+	}
+	
+	#showErrorMessage(type, expected, received){
+		let receivedType
+		const getType = this.#identifyType(received);
+		getType !== false ? (receivedType = getType) : (receivedType = (typeof received).charAt(0).toUpperCase() + (typeof received).slice(1));
+		if(type === "input") throw new Error(this.#errorMessage(100, expected, receivedType));
+		if(type === "invalid") throw new Error(this.#errorMessage(101, expected, receivedType));
+		if(type === "error") throw new Error(this.#errorMessage(200, expected, receivedType));
+		if(type === "option") throw new Error(this.#errorMessage(201, expected, receivedType));
+		if(type === "invalid-option") throw new Error(this.#errorMessage(102, expected, receivedType));
+		if(type === "array") throw new Error(this.#errorMessage(103, expected, receivedType));
+		if(type === "range") throw new Error(this.#errorMessage(202, expected, receivedType));
+		if(type === "invalid-range") throw new Error(this.#errorMessage(104, expected, receivedType));
+		if(type === "invalid-object") throw new Error(this.#errorMessage(105, expected, receivedType));
+		if(type === "invalid-from") throw new Error(this.#errorMessage(106, expected, receivedType));
+		if(type === "invalid-to") throw new Error(this.#errorMessage(107, expected, receivedType));
 	}
 	
 	check(content, type){
-		if(type === null || type === undefined){
-			this.#errorMessage("input");
-		}
-		
+		if(type === null || type === undefined) this.#showErrorMessage("input");
 		let checked;
 		const getType = type.toLowerCase();
-		
 		const validInput = ["number", "string", "boolean", "bigint", "undefined", "null", "symbol", "array", "object"];
-		
-		if(!validInput.includes(getType)){
-			this.#errorMessage("invalid");
-		};
+		if(!validInput.includes(getType)) this.#showErrorMessage("invalid");
 		
 		switch(getType){
 			case "number":
@@ -192,51 +232,31 @@ class Validate{
 	checkOptions(value, content){
 		const validInput = ["string", "number", "bigint", "boolean", "Infinity", "-Infinity"];
 		
-		if(!validInput.includes(typeof value) && !validInput.includes(value)){
-			this.#errorMessage("invalid-option");
-		}
-		if(typeof value === "number" && isNaN(value)){
-			this.#errorMessage("invalid-option");
-		}
-		if(!Array.isArray(content)){
-			this.#errorMessage("array");
-		}
+		if(!validInput.includes(typeof value) && !validInput.includes(value)) this.#showErrorMessage("invalid-option");
+		if(typeof value === "number" && isNaN(value)) this.#showErrorMessage("invalid-option");
+		if(!Array.isArray(content)) this.#showErrorMessage("array");
 		if(!content.includes(value)){
 			if(this.#silent === true) return false;
-			this.#errorMessage("option", value);
+			this.#showErrorMessage("option", value);
 		}
 		return true;
 	}
 	
 	#isInvalidNumber(content){
-		if(typeof content !== "bigint" && typeof content !== "number" || typeof content === "number" && isNaN(content)){
-			return true
-		}
+		if(typeof content !== "bigint" && typeof content !== "number" || typeof content === "number" && isNaN(content)) return true;
 		return false;
 	}
 	
 	checkRange(value, range){
-		if(this.#isInvalidNumber(value)){
-			this.#errorMessage("invalid-range");
-		}
-		if(typeof range !== "object"){
-			this.#errorMessage("invalid-object");
-		}
-		if(!Object.keys(range).includes("from")){
-			this.#errorMessage("invalid-from");
-		}
-		if(!Object.keys(range).includes("to")){
-			this.#errorMessage("invalid-to");
-		}
-		if(this.#isInvalidNumber(range.from)){
-			this.#errorMessage("invalid-range");
-		}
-		if(this.#isInvalidNumber(range.to)){
-			this.#errorMessage("invalid-range");
-		}
+		if(this.#isInvalidNumber(value)) this.#showErrorMessage("invalid-range");
+		if(typeof range !== "object") this.#showErrorMessage("invalid-object");
+		if(!Object.keys(range).includes("from")) this.#showErrorMessage("invalid-from");
+		if(!Object.keys(range).includes("to")) this.#showErrorMessage("invalid-to");
+		if(this.#isInvalidNumber(range.from)) this.#showErrorMessage("invalid-range");
+		if(this.#isInvalidNumber(range.to)) this.#showErrorMessage("invalid-range");
 		if(value < range.from || value > range.to){
 			if(this.#silent === true) return false;
-			this.#errorMessage("range", value);
+			this.#showErrorMessage("range", value);
 		}
 		return true;
 	}

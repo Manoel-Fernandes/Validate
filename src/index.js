@@ -1,2 +1,2 @@
-import validator from './validate.js';
-export default validator;
+import validate from './validate.js';
+export default validate;
