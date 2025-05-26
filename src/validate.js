@@ -1,6 +1,6 @@
 /*
  * author: Manoel Fernandes
- * version: 1.3.0
+ * version: 1.4.0
  * license: MIT
  * */
 class Validate{
@@ -12,6 +12,7 @@ class Validate{
 		if(!this.#validateBoolean(mode)){
 			this.#logError("error", "Boolean", mode);
 			this.#showErrorMessage("error", "Boolean", mode);
+			return;
 		}
 		this.#silent = mode
 	}
@@ -162,10 +163,18 @@ class Validate{
 	}
 	
 	getLastError(){
-		return this.#logMessages[this.#maxSize - 1];
+		return this.#logMessages[this.#logMessages.length - 1];
 	}
 	
 	maxErrorSize(size){
+		if(this.#isInvalidNumber(size)){
+			this.#logError();
+			this.#showErrorMessage();
+		}
+		if(size < 1){
+			this.#logError();
+			this.#showErrorMessage();
+		}
 		this.#maxSize = size;
 	}
 	
@@ -195,7 +204,10 @@ class Validate{
 		let checked;
 		const getType = type.toLowerCase();
 		const validInput = ["number", "string", "boolean", "bigint", "undefined", "null", "symbol", "array", "object"];
-		if(!validInput.includes(getType)) this.#showErrorMessage("invalid");
+		if(!validInput.includes(getType)){
+			this.#logError("invalid");
+			this.#showErrorMessage("invalid");
+		}
 		
 		switch(getType){
 			case "number":
@@ -232,10 +244,22 @@ class Validate{
 	checkOptions(value, content){
 		const validInput = ["string", "number", "bigint", "boolean", "Infinity", "-Infinity"];
 		
-		if(!validInput.includes(typeof value) && !validInput.includes(value)) this.#showErrorMessage("invalid-option");
-		if(typeof value === "number" && isNaN(value)) this.#showErrorMessage("invalid-option");
-		if(!Array.isArray(content)) this.#showErrorMessage("array");
+		if(!validInput.includes(typeof value) && !validInput.includes(value)){
+			this.#logError("invalid-option");
+			if(this.#silent === true) return false;
+			this.#showErrorMessage("invalid-option");
+		}
+		if(typeof value === "number" && isNaN(value)){
+			this.#logError("invalid-option");
+			if(this.#silent === true) return false;
+			this.#showErrorMessage("invalid-option");
+		}
+		if(!Array.isArray(content)){
+			this.#logError("array");
+			this.#showErrorMessage("array");
+		}
 		if(!content.includes(value)){
+			this.#logError("option", value);
 			if(this.#silent === true) return false;
 			this.#showErrorMessage("option", value);
 		}
@@ -248,13 +272,33 @@ class Validate{
 	}
 	
 	checkRange(value, range){
-		if(this.#isInvalidNumber(value)) this.#showErrorMessage("invalid-range");
-		if(typeof range !== "object") this.#showErrorMessage("invalid-object");
-		if(!Object.keys(range).includes("from")) this.#showErrorMessage("invalid-from");
-		if(!Object.keys(range).includes("to")) this.#showErrorMessage("invalid-to");
-		if(this.#isInvalidNumber(range.from)) this.#showErrorMessage("invalid-range");
-		if(this.#isInvalidNumber(range.to)) this.#showErrorMessage("invalid-range");
+		if(this.#isInvalidNumber(value)){
+			this.#logError("invalid-range");
+			if(this.#silent === true) return false;
+			this.#showErrorMessage("invalid-range");
+		}
+		if(typeof range !== "object"){
+			this.#logError("invalid-object");
+			this.#showErrorMessage("invalid-object");
+		}
+		if(!Object.keys(range).includes("from")){
+			this.#logError("invalid-from");
+			this.#showErrorMessage("invalid-from");
+		}
+		if(!Object.keys(range).includes("to")){
+			this.#logError("invalid-to");
+			this.#showErrorMessage("invalid-to");
+		}
+		if(this.#isInvalidNumber(range.from)){
+			this.#logError("invalid-range");
+			this.#showErrorMessage("invalid-range");
+		}
+		if(this.#isInvalidNumber(range.to)){
+			this.#logError("invalid-range");
+			this.#showErrorMessage("invalid-range");
+		}
 		if(value < range.from || value > range.to){
+			this.#logError("range", value);
 			if(this.#silent === true) return false;
 			this.#showErrorMessage("range", value);
 		}
