@@ -1,6 +1,8 @@
-import Validate from "../src/index.js";
+import validate from "../index.js";
 
 import { describe, it, expect } from 'vitest';
+
+const Validate = new validate();
 
 Validate.silent(false);
 
@@ -15,21 +17,22 @@ describe("Validate input", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should return error from input", () => {
-		expect(() => Validate.check()).toThrow(/Please, inform a type to be checked/);
+		expect(() => Validate.check()).toThrow('Error: (check) Missing data type.');
 	});
 	it("Should return error from input", () => {
-		expect(() => Validate.check("hello")).toThrow(/Please, inform a type to be checked/);
+		expect(() => Validate.check("hello")).toThrow('Error: (check) Missing data type.');
 	});
 	it("Should return error from input", () => {
-		expect(() => Validate.check("string")).toThrow(/Please, inform a type to be checked/);
+		expect(() => Validate.check("string")).toThrow('Error: (check) Missing data type.');
 	});
 	it("Should return error from input", () => {
-		expect(() => Validate.check(20, "integer")).toThrow(/Invalid type value. Please read README.md for usage details./);
+		expect(() => Validate.check(20, "integer")).toThrow('Error: (check) Invalid data type. See the docs.');
 	});
 	it("Should return error from input", () => {
-		expect(() => Validate.check("",)).toThrow(/Please, inform a type to be checked/);
+		expect(() => Validate.check("",)).toThrow('Error: (check) Missing data type.');
 	});
 });
+
 
 ////////////////////   numbers  //////////////////////
 
@@ -43,37 +46,37 @@ describe("Validate Number Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check("123", "number")).toThrow(/Invalid value: expected "Number", received "String"/);
+		expect(()=> Validate.check("123", "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "String".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check(true, "number")).toThrow(/Invalid value: expected "Number", received "Boolean"/);
+		expect(()=> Validate.check(true, "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "Boolean".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check({}, "number")).toThrow(/Invalid value: expected "Number", received "Object"/);
+		expect(()=> Validate.check({}, "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "Object".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check(null, "number")).toThrow(/Invalid value: expected "Number", received "Null"/);
+		expect(()=> Validate.check(null, "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "Null".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check(Infinity, "number")).toThrow(/Invalid value: expected "Number", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "Infinity".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check(-Infinity, "number")).toThrow(/Invalid value: expected "Number", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "-Infinity".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check([], "number")).toThrow(/Invalid value: expected "Number", received "Array"/);
+		expect(()=> Validate.check([], "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "Array".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check(Symbol(), "number")).toThrow(/Invalid value: expected "Number", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "Symbol".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check(123n, "number")).toThrow(/Invalid value: expected "Number", received "BigInt"/);
+		expect(()=> Validate.check(123n, "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "BigInt".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> {let x; Validate.check(x, "number");}).toThrow(/Invalid value: expected "Number", received "Undefined"/);
+		expect(()=> {let x; Validate.check(x, "number");}).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "Undefined".');
 	});
 	it("Should return error when validate a number", () =>{
-		expect(()=> Validate.check(NaN, "number")).toThrow(/Invalid value: expected "Number", received "NaN"/);
+		expect(()=> Validate.check(NaN, "number")).toThrow('Check failed: (check) Type mismatch. Expected "Number", got "NaN".');
 	});
 });
 
@@ -90,41 +93,41 @@ describe("Validate String Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(123, "string")).toThrow(/Invalid value: expected "String", received "Number"/);
+		expect(()=> Validate.check(123, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Number".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(true, "string")).toThrow(/Invalid value: expected "String", received "Boolean"/);
+		expect(()=> Validate.check(true, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Boolean".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check({}, "string")).toThrow(/Invalid value: expected "String", received "Object"/);
+		expect(()=> Validate.check({}, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Object".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(null, "string")).toThrow(/Invalid value: expected "String", received "Null"/);
+		expect(()=> Validate.check(null, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Null".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(Infinity, "string")).toThrow(/Invalid value: expected "String", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Infinity".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(-Infinity, "string")).toThrow(/Invalid value: expected "String", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "-Infinity".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check([], "string")).toThrow(/Invalid value: expected "String", received "Array"/);
+		expect(()=> Validate.check([], "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Array".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(Symbol(), "string")).toThrow(/Invalid value: expected "String", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Symbol".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(123n, "string")).toThrow(/Invalid value: expected "String", received "BigInt"/);
+		expect(()=> Validate.check(123n, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "BigInt".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> {let x; Validate.check(x, "string");}).toThrow(/Invalid value: expected "String", received "Undefined"/);
+		expect(()=> {let x; Validate.check(x, "string");}).toThrow('Check failed: (check) Type mismatch. Expected "String", got "Undefined".');
 	});
 	it("Should return error when validate a string", () =>{
-		expect(()=> Validate.check(NaN, "string")).toThrow(/Invalid value: expected "String", received "NaN"/);
+		expect(()=> Validate.check(NaN, "string")).toThrow('Check failed: (check) Type mismatch. Expected "String", got "NaN".');
 	});
 });
 
-
+ 
 ////////////////   boolean   ////////////////////
 
 describe("Validate Boolean Value", ()=>{
@@ -140,37 +143,37 @@ describe("Validate Boolean Value", ()=>{
 		expect(() => Validate.check(false, "boolean")).not.toThrow();
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check("hello", "boolean")).toThrow(/Invalid value: expected "Boolean", received "String"/);
+		expect(()=> Validate.check("hello", "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "String".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check(123, "boolean")).toThrow(/Invalid value: expected "Boolean", received "Number"/);
+		expect(()=> Validate.check(123, "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "Number".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check({}, "boolean")).toThrow(/Invalid value: expected "Boolean", received "Object"/);
+		expect(()=> Validate.check({}, "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "Object".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check(null, "boolean")).toThrow(/Invalid value: expected "Boolean", received "Null"/);
+		expect(()=> Validate.check(null, "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "Null".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check(Infinity, "boolean")).toThrow(/Invalid value: expected "Boolean", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "Infinity".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check(-Infinity, "boolean")).toThrow(/Invalid value: expected "Boolean", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "-Infinity".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check([], "boolean")).toThrow(/Invalid value: expected "Boolean", received "Array"/);
+		expect(()=> Validate.check([], "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "Array".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check(Symbol(), "boolean")).toThrow(/Invalid value: expected "Boolean", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "Symbol".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check(123n, "boolean")).toThrow(/Invalid value: expected "Boolean", received "BigInt"/);
+		expect(()=> Validate.check(123n, "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "BigInt".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> {let x; Validate.check(x, "boolean");}).toThrow(/Invalid value: expected "Boolean", received "Undefined"/);
+		expect(()=> {let x; Validate.check(x, "boolean");}).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "Undefined".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> Validate.check(NaN, "boolean")).toThrow(/Invalid value: expected "Boolean", received "NaN"/);
+		expect(()=> Validate.check(NaN, "boolean")).toThrow('Check failed: (check) Type mismatch. Expected "Boolean", got "NaN".');
 	});
 });
 
@@ -187,37 +190,37 @@ describe("Validate BigInt Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should validate a bigint", ()=>{
-		expect(() => Validate.check(false, "bigint")).toThrow(/Invalid value: expected "BigInt", received "Boolean"/);
+		expect(() => Validate.check(false, "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Boolean".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check("hello", "bigint")).toThrow(/Invalid value: expected "BigInt", received "String"/);
+		expect(()=> Validate.check("hello", "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "String".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check(123, "bigint")).toThrow(/Invalid value: expected "BigInt", received "Number"/);
+		expect(()=> Validate.check(123, "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Number".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check({}, "bigint")).toThrow(/Invalid value: expected "BigInt", received "Object"/);
+		expect(()=> Validate.check({}, "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Object".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check(null, "bigint")).toThrow(/Invalid value: expected "BigInt", received "Null"/);
+		expect(()=> Validate.check(null, "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Null".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check(Infinity, "bigint")).toThrow(/Invalid value: expected "BigInt", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Infinity".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check(-Infinity, "bigint")).toThrow(/Invalid value: expected "BigInt", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "-Infinity".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check([], "bigint")).toThrow(/Invalid value: expected "BigInt", received "Array"/);
+		expect(()=> Validate.check([], "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Array".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check(Symbol(), "bigint")).toThrow(/Invalid value: expected "BigInt", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Symbol".');
 	});
 	it("Should return error when validate a boolean", () =>{
-		expect(()=> {let x; Validate.check(x, "bigint");}).toThrow(/Invalid value: expected "BigInt", received "Undefined"/);
+		expect(()=> {let x; Validate.check(x, "bigint");}).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "Undefined".');
 	});
 	it("Should return error when validate a bigint", () =>{
-		expect(()=> Validate.check(NaN, "bigint")).toThrow(/Invalid value: expected "BigInt", received "NaN"/);
+		expect(()=> Validate.check(NaN, "bigint")).toThrow('Check failed: (check) Type mismatch. Expected "BigInt", got "NaN".');
 	});
 });
 
@@ -234,37 +237,37 @@ describe("Validate Undefined Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should validate a undefined", ()=>{
-		expect(() => Validate.check(false, "undefined")).toThrow(/Invalid value: expected "Undefined", received "Boolean"/);
+		expect(() => Validate.check(false, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "Boolean".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check("hello", "undefined")).toThrow(/Invalid value: expected "Undefined", received "String"/);
+		expect(()=> Validate.check("hello", "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "String".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check(123, "undefined")).toThrow(/Invalid value: expected "Undefined", received "Number"/);
+		expect(()=> Validate.check(123, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "Number".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check({}, "undefined")).toThrow(/Invalid value: expected "Undefined", received "Object"/);
+		expect(()=> Validate.check({}, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "Object".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check(null, "undefined")).toThrow(/Invalid value: expected "Undefined", received "Null"/);
+		expect(()=> Validate.check(null, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "Null".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check(Infinity, "undefined")).toThrow(/Invalid value: expected "Undefined", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "Infinity".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check(-Infinity, "undefined")).toThrow(/Invalid value: expected "Undefined", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "-Infinity".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check([], "undefined")).toThrow(/Invalid value: expected "Undefined", received "Array"/);
+		expect(()=> Validate.check([], "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "Array".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check(Symbol(), "undefined")).toThrow(/Invalid value: expected "Undefined", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "Symbol".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check(123n, "undefined")).toThrow(/Invalid value: expected "Undefined", received "BigInt"/);
+		expect(()=> Validate.check(123n, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "BigInt".');
 	});
 	it("Should return error when validate a undefined", () =>{
-		expect(()=> Validate.check(NaN, "undefined")).toThrow(/Invalid value: expected "Undefined", received "NaN"/);
+		expect(()=> Validate.check(NaN, "undefined")).toThrow('Check failed: (check) Type mismatch. Expected "Undefined", got "NaN".');
 	});
 });
 
@@ -281,37 +284,37 @@ describe("Validate Null Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should validate a null", ()=>{
-		expect(() => Validate.check(undefined, "null")).toThrow(/Invalid value: expected "Null", received "Undefined"/);
+		expect(() => Validate.check(undefined, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "Undefined".');
 	});
 	it("Should validate a null", ()=>{
-		expect(() => Validate.check(false, "null")).toThrow(/Invalid value: expected "Null", received "Boolean"/);
+		expect(() => Validate.check(false, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "Boolean".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check("hello", "null")).toThrow(/Invalid value: expected "Null", received "String"/);
+		expect(()=> Validate.check("hello", "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "String".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check(123, "null")).toThrow(/Invalid value: expected "Null", received "Number"/);
+		expect(()=> Validate.check(123, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "Number".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check({}, "null")).toThrow(/Invalid value: expected "Null", received "Object"/);
+		expect(()=> Validate.check({}, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "Object".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check(Infinity, "null")).toThrow(/Invalid value: expected "Null", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "Infinity".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check(-Infinity, "null")).toThrow(/Invalid value: expected "Null", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "-Infinity".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check([], "null")).toThrow(/Invalid value: expected "Null", received "Array"/);
+		expect(()=> Validate.check([], "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "Array".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check(Symbol(), "null")).toThrow(/Invalid value: expected "Null", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "Symbol".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check(123n, "null")).toThrow(/Invalid value: expected "Null", received "BigInt"/);
+		expect(()=> Validate.check(123n, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "BigInt".');
 	});
 	it("Should return error when validate a null", () =>{
-		expect(()=> Validate.check(NaN, "null")).toThrow(/Invalid value: expected "Null", received "NaN"/);
+		expect(()=> Validate.check(NaN, "null")).toThrow('Check failed: (check) Type mismatch. Expected "Null", got "NaN".');
 	});
 });
 
@@ -328,37 +331,37 @@ describe("Validate Symbol Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check(123, "symbol")).toThrow(/Invalid value: expected "Symbol", received "Number"/);
+		expect(()=> Validate.check(123, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "Number".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check("123", "symbol")).toThrow(/Invalid value: expected "Symbol", received "String"/);
+		expect(()=> Validate.check("123", "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "String".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check(true, "symbol")).toThrow(/Invalid value: expected "Symbol", received "Boolean"/);
+		expect(()=> Validate.check(true, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "Boolean".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check({}, "symbol")).toThrow(/Invalid value: expected "Symbol", received "Object"/);
+		expect(()=> Validate.check({}, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "Object".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check(null, "symbol")).toThrow(/Invalid value: expected "Symbol", received "Null"/);
+		expect(()=> Validate.check(null, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "Null".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check(Infinity, "symbol")).toThrow(/Invalid value: expected "Symbol", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "Infinity".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check(-Infinity, "symbol")).toThrow(/Invalid value: expected "Symbol", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "-Infinity".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check([], "symbol")).toThrow(/Invalid value: expected "Symbol", received "Array"/);
+		expect(()=> Validate.check([], "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "Array".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check(123n, "symbol")).toThrow(/Invalid value: expected "Symbol", received "BigInt"/);
+		expect(()=> Validate.check(123n, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "BigInt".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> {let x; Validate.check(x, "symbol");}).toThrow(/Invalid value: expected "Symbol", received "Undefined"/);
+		expect(()=> {let x; Validate.check(x, "symbol");}).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "Undefined".');
 	});
 	it("Should return error when validate a symbol", () =>{
-		expect(()=> Validate.check(NaN, "symbol")).toThrow(/Invalid value: expected "Symbol", received "NaN"/);
+		expect(()=> Validate.check(NaN, "symbol")).toThrow('Check failed: (check) Type mismatch. Expected "Symbol", got "NaN".');
 	});
 });
 
@@ -375,37 +378,37 @@ describe("Validate Array Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check(123, "array")).toThrow(/Invalid value: expected "Array", received "Number"/);
+		expect(()=> Validate.check(123, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "Number".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check("123", "array")).toThrow(/Invalid value: expected "Array", received "String"/);
+		expect(()=> Validate.check("123", "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "String".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check(true, "array")).toThrow(/Invalid value: expected "Array", received "Boolean"/);
+		expect(()=> Validate.check(true, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "Boolean".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check({}, "array")).toThrow(/Invalid value: expected "Array", received "Object"/);
+		expect(()=> Validate.check({}, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "Object".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check(null, "array")).toThrow(/Invalid value: expected "Array", received "Null"/);
+		expect(()=> Validate.check(null, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "Null".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check(Infinity, "array")).toThrow(/Invalid value: expected "Array", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "Infinity".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check(-Infinity, "array")).toThrow(/Invalid value: expected "Array", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "-Infinity".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check(Symbol(), "array")).toThrow(/Invalid value: expected "Array", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "Symbol".');
 	});
 	it("Should return error when validate an array", () =>{
-		expect(()=> Validate.check(123n, "array")).toThrow(/Invalid value: expected "Array", received "BigInt"/);
+		expect(()=> Validate.check(123n, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "BigInt".');
 	});
 	it("Should return error when validate a array", () =>{
-		expect(()=> {let x; Validate.check(x, "array");}).toThrow(/Invalid value: expected "Array", received "Undefined"/);
+		expect(()=> {let x; Validate.check(x, "array");}).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "Undefined".');
 	});
 	it("Should return error when validate a array", () =>{
-		expect(()=> Validate.check(NaN, "array")).toThrow(/Invalid value: expected "Array", received "NaN"/);
+		expect(()=> Validate.check(NaN, "array")).toThrow('Check failed: (check) Type mismatch. Expected "Array", got "NaN".');
 	});
 });
 
@@ -422,39 +425,40 @@ describe("Validate Object Value", ()=>{
 		expect(waitTrue).toBe(true);
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(123, "object")).toThrow(/Invalid value: expected "Object", received "Number"/);
+		expect(()=> Validate.check(123, "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "Number".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check("123", "object")).toThrow(/Invalid value: expected "Object", received "String"/);
+		expect(()=> Validate.check("123", "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "String".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(true, "object")).toThrow(/Invalid value: expected "Object", received "Boolean"/);
+		expect(()=> Validate.check(true, "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "Boolean".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(Symbol(), "object")).toThrow(/Invalid value: expected "Object", received "Symbol"/);
+		expect(()=> Validate.check(Symbol(), "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "Symbol".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(null, "object")).toThrow(/Invalid value: expected "Object", received "Null"/);
+		expect(()=> Validate.check(null, "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "Null".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(Infinity, "object")).toThrow(/Invalid value: expected "Object", received "Infinity"/);
+		expect(()=> Validate.check(Infinity, "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "Infinity".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(-Infinity, "object")).toThrow(/Invalid value: expected "Object", received "-Infinity"/);
+		expect(()=> Validate.check(-Infinity, "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "-Infinity".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check([], "object")).toThrow(/Invalid value: expected "Object", received "Array"/);
+		expect(()=> Validate.check([], "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "Array".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(123n, "object")).toThrow(/Invalid value: expected "Object", received "BigInt"/);
+		expect(()=> Validate.check(123n, "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "BigInt".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> {let x; Validate.check(x, "object");}).toThrow(/Invalid value: expected "Object", received "Undefined"/);
+		expect(()=> {let x; Validate.check(x, "object");}).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "Undefined".');
 	});
 	it("Should return error when validate an object", () =>{
-		expect(()=> Validate.check(NaN, "object")).toThrow(/Invalid value: expected "Object", received "NaN"/);
+		expect(()=> Validate.check(NaN, "object")).toThrow('Check failed: (check) Type mismatch. Expected "Object", got "NaN".');
 	});
 });
+
 
 ////////////////   False values returned   /////////////////////
 
@@ -476,32 +480,33 @@ describe("Validate silent mode return with false value", () => {
 	});
 })
 
-
+  
 /////////////////////   Silent mode   ////////////////////////
 
 describe("Validate value received by silent mode", () => {
 	it("Should return error with silent input", () => {
-		expect(() => Validate.silent("hello")).toThrow(/Invalid value: expected "Boolean", received "String"/);
+		expect(() => Validate.silent("hello")).toThrow('Error: (silent) Expected a boolean.');
 	});
 	it("Should return error with silent input", () => {
-		expect(() => Validate.silent(75)).toThrow(/Invalid value: expected "Boolean", received "Number"/);
+		expect(() => Validate.silent(75)).toThrow('Error: (silent) Expected a boolean.');
 	});
 	it("Should return error with silent input", () => {
-		expect(() => Validate.silent(["foo", "bar"])).toThrow(/Invalid value: expected "Boolean", received "Array"/);
+		expect(() => Validate.silent(["foo", "bar"])).toThrow('Error: (silent) Expected a boolean.');
 	});
 	it("Should return error with silent input", () => {
-		expect(() => Validate.silent({})).toThrow(/Invalid value: expected "Boolean", received "Object"/);
+		expect(() => Validate.silent({})).toThrow('Error: (silent) Expected a boolean.');
 	});
 	it("Should return error with silent input", () => {
-		expect(() => Validate.silent(null)).toThrow(/Invalid value: expected "Boolean", received "Null"/);
+		expect(() => Validate.silent(null)).toThrow('Error: (silent) Expected a boolean.');
 	});
 	it("Should return error with silent input", () => {
-		expect(() => Validate.silent(123n)).toThrow(/Invalid value: expected "Boolean", received "BigInt"/);
+		expect(() => Validate.silent(123n)).toThrow('Error: (silent) Expected a boolean.');
 	});
 	it("Should not return error with silent input", () => {
 		expect(() => Validate.silent(false)).not.toThrow();
 	});
 })
+
 
 
 ///////////////////   Check Options   ///////////////////////
@@ -546,42 +551,42 @@ describe("Validate checkOptions", () => {
 	
 	it("Should return not found error", () => {
 		Validate.silent(false);
-		expect(() => Validate.checkOptions("other", ["single", "married", "divorced"])).toThrow(/Value "other" was not found on array./);
+		expect(() => Validate.checkOptions("other", ["single", "married", "divorced"])).toThrow('Check failed: (checkOptions) Value "other" not found.');
 	});
 	it("Should return not found error", () => {
-		expect(() => Validate.checkOptions("cat", ["lion", "tiger", "bird"])).toThrow(/Value "cat" was not found on array./);
+		expect(() => Validate.checkOptions("cat", ["lion", "tiger", "bird"])).toThrow('Check failed: (checkOptions) Value "cat" not found.');
 	});
 	it("Should return not found error", () => {
-		expect(() => Validate.checkOptions(45, [28, 32, 57])).toThrow(/Value "45" was not found on array./);
+		expect(() => Validate.checkOptions(45, [28, 32, 57])).toThrow('Check failed: (checkOptions) Value "45" not found.');
 	});
 	it("Should return not found error", () => {
-		expect(() => Validate.checkOptions(18n, [22n, 35n, 40n])).toThrow(/Value "18" was not found on array./);
+		expect(() => Validate.checkOptions(18n, [22n, 35n, 40n])).toThrow('Check failed: (checkOptions) Value "18" not found.');
 	});
 	
 	it("Should return invalid input error", () => {
-		expect(() => Validate.checkOptions(null, ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+		expect(() => Validate.checkOptions(null, ["single", "married", "divorced"])).toThrow('Error: (checkOptions) Invalid value. See the docs.');
 	});
 	it("Should return invalid input error", () => {
-		expect(() => Validate.checkOptions(undefined, ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+		expect(() => Validate.checkOptions(undefined, ["single", "married", "divorced"])).toThrow('Error: (checkOptions) Invalid value. See the docs.');
 	});
 	it("Should return invalid input error", () => {
-		expect(() => Validate.checkOptions([], ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+		expect(() => Validate.checkOptions([], ["single", "married", "divorced"])).toThrow('Error: (checkOptions) Invalid value. See the docs.');
 	});
 	it("Should return invalid input error", () => {
-		expect(() => Validate.checkOptions({}, ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+		expect(() => Validate.checkOptions({}, ["single", "married", "divorced"])).toThrow('Error: (checkOptions) Invalid value. See the docs.');
 	});
 	it("Should return invalid input error", () => {
-		expect(() => Validate.checkOptions(Symbol("hello"), ["single", "married", "divorced"])).toThrow(/Value received is not a valid value in checkOptions. Please read README.md for usage details./);
+		expect(() => Validate.checkOptions(Symbol("hello"), ["single", "married", "divorced"])).toThrow('Error: (checkOptions) Invalid value. See the docs.');
 	});
 	
 	it("Should return input error", () => {
-		expect(() => Validate.checkOptions("hello", {})).toThrow(/Invalid value. Waiting an array to check the options./);
+		expect(() => Validate.checkOptions("hello", {})).toThrow('Error: (checkOptions) Expected an array.');
 	});
 	it("Should return input error", () => {
-		expect(() => Validate.checkOptions("hello", 25)).toThrow(/Invalid value. Waiting an array to check the options./);
+		expect(() => Validate.checkOptions("hello", 25)).toThrow('Error: (checkOptions) Expected an array.');
 	});
 	it("Should return input error", () => {
-		expect(() => Validate.checkOptions("hello", "foo")).toThrow(/Invalid value. Waiting an array to check the options./);
+		expect(() => Validate.checkOptions("hello", "foo")).toThrow('Error: (checkOptions) Expected an array.');
 	});
 })
 
@@ -612,34 +617,35 @@ describe("Validating checkRange", () => {
 	//////
 	
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange(77, {from: 18, to: 65})).toThrow(/The value "77" is outside range values./);
+		expect(() => Validate.checkRange(77, {from: 18, to: 65})).toThrow('Check failed: (checkRange) Value "77" is out of range.');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange("77", {from: 18, to: 65})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+		expect(() => Validate.checkRange("77", {from: 18, to: 65})).toThrow('Error: (checkRange) Only "number" or "bigint" allowed.');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange({}, {from: 18, to: 65})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+		expect(() => Validate.checkRange({}, {from: 18, to: 65})).toThrow('Error: (checkRange) Only "number" or "bigint" allowed.');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange([], {from: 18, to: 65})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+		expect(() => Validate.checkRange([], {from: 18, to: 65})).toThrow('Error: (checkRange) Only "number" or "bigint" allowed.');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange(21, "")).toThrow(/Invalid value on checkRange. Waiting an object with "from" and "to" to be checked./);
+		expect(() => Validate.checkRange(21, "")).toThrow('Error: (checkRange) Expected an object with "from" and "to".');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange(21, 42)).toThrow(/Invalid value on checkRange. Waiting an object with "from" and "to" to be checked./);
+		expect(() => Validate.checkRange(21, 42)).toThrow('Error: (checkRange) Expected an object with "from" and "to".');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange(21, {to: 56})).toThrow(/The key "from" was not found in object./);
+		expect(() => Validate.checkRange(21, {to: 56})).toThrow('Error: (checkRange) Key "from" is missing.');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange(21, {from: 35})).toThrow(/The key "to" was not found in object./);
+		expect(() => Validate.checkRange(21, {from: 35})).toThrow('Error: (checkRange) Key "to" is missing.');
 	});
 	
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange(21, {from: "16", to: 56})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+		expect(() => Validate.checkRange(21, {from: "16", to: 56})).toThrow('Error: (checkRange) "from" must be a number.');
 	});
 	it("Should to throw", () => {
-		expect(() => Validate.checkRange(21, {from: 18, to: "27"})).toThrow(/Value received is not a valid value in checkRange. This method accept only numbers./);
+		expect(() => Validate.checkRange(21, {from: 18, to: "27"})).toThrow('Error: (checkRange) "to" must be a number.');
 	});
 })
+
