@@ -37,6 +37,8 @@ The method returns a string representing the detected type, such as:
 
 - "nan"
 
+- "symbol"
+
 This is useful for error reporting, dynamic validation, or when type inspection is required beyond what typeof offers.
 
 ## Usage
