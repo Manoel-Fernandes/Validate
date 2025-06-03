@@ -1,12 +1,13 @@
-# `silent()`
+# Silent
 
 The `silent()` method enables or disables **silent mode**, which controls whether validation methods should throw errors or simply return `false` when validation fails.
 
+To check if silent mode is enabled, use `isSilent()` method.
+
 This setting only affects **data validation failures**, not **invalid usage** of the library (such as passing incorrect argument types). Usage errors will always throw an exception, regardless of the silent mode.
 
----
 
-## 📌 Usage
+## Usage
 
 ```js
 Validate.silent(boolean);
@@ -19,17 +20,15 @@ Validate.silent(boolean);
   * `true`: Enables silent mode – methods return `false` instead of throwing errors when validation fails.
   * `false`: Disables silent mode – methods throw descriptive errors when validation fails.
 
----
 
-## 🟢 Default Behavior
+## Default Behavior
 
 Silent mode is **enabled by default**.
 If you don’t call `Validate.silent(false)`, all validations will quietly return `false` on failure — no error is thrown.
 
 ```js
-// Default behavior
 Validate.check(123, "string"); 
-// ❌ false (no error, silent mode is active by default)
+// false (no error, silent mode is active by default)
 ```
 
 ---
@@ -40,10 +39,9 @@ Validate.check(123, "string");
 Validate.silent(true);
 
 Validate.check(false, "string"); 
-// ❌ false (no error, just failed validation)
+// false (no error, just failed validation)
 ```
 
----
 
 ### Example: Silent mode disabled
 
@@ -51,10 +49,9 @@ Validate.check(false, "string");
 Validate.silent(false);
 
 Validate.check(false, "string"); 
-// ❌ Error: Invalid value: expected "String", received "Boolean"
+// Check failed: (check) Type mismatch. Expected "String", got "Boolean".
 ```
 
----
 
 ## ⚠️ Important Behavior
 
@@ -66,20 +63,25 @@ Validate.silent(true);
 
 // Invalid input → still throws
 Validate.checkRange("25", {from: "20", to: "40"});
-// ❌ Error: Invalid type value. Please read README.md for usage details.
+// Error: (checkRange) "from" must be a number.
 ```
 
----
+## Checking Silent Mode Status
 
-## 🔁 State Persistence
+Use the `isSilent()` method to check the current silent mode status.
 
-The silent mode setting is **global** and **persistent** for the entire runtime. Once set, it applies to all subsequent validation calls unless changed again.
+It returns a boolean indicating whether silent mode is currently enabled.
 
+Example:
 ```js
 Validate.silent(true);
-Validate.check(true, "boolean"); // ✅ true
-Validate.check(true, "string");  // ❌ false
+console.log(Validate.isSilent()); 
+// true
 
 Validate.silent(false);
-Validate.check(true, "string");  // ❌ Error: Invalid value: expected "String", received "Boolean"
+console.log(Validate.isSilent()); 
+// false
 ```
+
+This is useful if you need to verify or toggle behavior based on the current validation mode.
+
