@@ -1,11 +1,10 @@
-# 📦 Installation
+# Installation
 
 Validate supports multiple environments, including **Node.js**, **Deno**, and the **browser** (via CDN).  
 Choose the setup that best fits your project.
 
----
 
-## 🟩 Node.js
+## Node.js
 
 You can install the library using npm:
 
@@ -13,54 +12,71 @@ You can install the library using npm:
 npm install @manoelfernandes/validate
 ```
 
-Usage in CommonJS:
+Usage:
 
-```js
-const Validate = require('@manoelfernandes/validate').default;
-
-Validate.check(123, "number"); // ✅ true
-```
-
-Usage in ES Modules:
-
+**Default instance**
 ```js
 import Validate from '@manoelfernandes/validate';
 
-Validate.check("hello", "string"); // ✅ true
+Validate.check("hello", "string");
 ```
 
----
+**Class constructor**
 
-## 🟦 Deno
+```js
+import { Validate } from '@manoelfernandes/validate';
+
+const validate = new Validate();
+validate.check("hello", "string");
+```
+
+
+## Deno
 
 Import the library directly from GitHub:
 
+**Default instance**
+
 ```js
-import Validate from "https://raw.githubusercontent.com/Manoel-Fernandes/Validate/main/src/validate.js";
+// default instance
+import Validate from "https://raw.githubusercontent.com/Manoel-Fernandes/Validate/main/build/validate.min.js";
 
-Validate.check(true, "boolean"); // ✅ true
+Validate.check(true, "boolean");
 ```
 
----
+**Class constructor**
 
-## 🌐 Browser (via CDN)
+```js
+import { Validate } from "https://raw.githubusercontent.com/Manoel-Fernandes/Validate/main/build/validate.min.js";
 
-You can use Validate directly in the browser with a `<script>` tag:
-
-```html
-<script src="https://unpkg.com/@manoelfernandes/validate@1.3.0/src/validate.js"></script>
+const validate = new Validate();
+validate.check(true, "boolean");
 ```
 
-Then use it like this:
+
+## Browser (via CDN)
+
+You can use Validate directly in the browser:
+
+**Default instance**
 
 ```html
-<script>
-  const isValid = Validate.check(42, "number");
-  console.log(isValid); // true
+<script type="module">
+  import Validate from "https://unpkg.com/@manoelfernandes/validate@1.4.0/build/validate.min.js";
+
+  console.log(Validate.check(42, "number")); // true
 </script>
 ```
 
----
+**Class constructor**
 
-Once installed or imported, you're ready to start using the validation methods.
-Check out the [Checking methods](check.md) section for usage examples.
+```html
+<script type="module">
+  import { Validate } from "https://unpkg.com/@manoelfernandes/validate@1.4.0/build/validate.min.js";
+
+  const validate = new Validate();
+  console.log(validate.check(42, "number")); // true
+</script>
+```
+
+
