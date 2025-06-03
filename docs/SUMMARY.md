@@ -3,7 +3,7 @@
 - [Introduction](index.md)
 - [Install](install.md)
 - [Silent](silent.md)
-- [Get the Type](getTipe.md)
+- [Get the Type](getType.md)
 - [Validation Methods](validationMethods.md)
 	- [check](check.md)
 	- [checkOptions](checkOptions.md)
