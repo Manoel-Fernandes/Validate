@@ -1,2 +1,6 @@
-import validate from './build/validate.min.js';
+import { Validate } from './build/validate.min.js';
+
+const validate = new Validate();
+
+export { Validate };
 export default validate;
