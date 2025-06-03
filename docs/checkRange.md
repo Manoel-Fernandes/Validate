@@ -6,7 +6,7 @@ It works with **numeric values**, **BigInt** (`123n`), **Infinity**, **-Infinity
 
 ---
 
-## 📌 Usage
+## Usage
 
 ```js
 Validate.checkRange(value, { from, to });
@@ -30,32 +30,32 @@ Validate.checkRange(value, { from, to });
 
 ### Return Value
 
-* ✅ Returns `true` if the value is within the specified range (inclusive).
-* ❌ Returns `false` if the value is outside the range.
+* Returns `true` if the value is within the specified range (inclusive).
+* Returns `false` if the value is outside the range.
 
 ---
 
-## ✅ Examples
+## Examples
 
 ### Valid cases with numeric values:
 
 ```js
-Validate.checkRange(28, {from: 18, to: 65});  // ✅ true (28 is within the range)
-Validate.checkRange(0, {from: 0, to: 0});     // ✅ true (0 is equal to both the min and max)
-Validate.checkRange(100, {from: 0, to: 100}); // ✅ true (100 is within the range)
+Validate.checkRange(28, {from: 18, to: 65});  // true
+Validate.checkRange(0, {from: 0, to: 5});     // true
+Validate.checkRange(100, {from: 0, to: 100}); // true
 ```
 
 ### Valid cases with **BigInt** values:
 
 ```js
-Validate.checkRange(123n, {from: 100n, to: 150n}); // ✅ true (123n is within the range)
+Validate.checkRange(123n, {from: 100n, to: 150n}); // true
 ```
 
 ### Valid cases with **Infinity**:
 
 ```js
-Validate.checkRange(512, {from: 0, to: Infinity});     // ✅ true (512 is within the range 0 to Infinity)
-Validate.checkRange(-512, {from: -Infinity, to: 0});   // ✅ true (-512 is within the range -Infinity to 0)
+Validate.checkRange(512, {from: 0, to: Infinity});     // true
+Validate.checkRange(-512, {from: -Infinity, to: 0});   // true
 ```
 
 ### Valid cases with **Dates timestamps** (`getTime()`):
@@ -66,7 +66,7 @@ let end = new Date(2027, 0, 1).getTime();
 let now = new Date().getTime();
 
 Validate.checkRange(now, {from: start, to: end}); 
-// ✅ true (current timestamp is within the specified date range)
+// true
 ```
 
 ### Valid cases with **Hours values** (`getHours()`):
@@ -74,19 +74,19 @@ Validate.checkRange(now, {from: start, to: end});
 ```js
 let hour = new Date().getHours();
 Validate.checkRange(hour, {from: 8, to: 17}); 
-// ✅ true (current hour is within 8 AM to 5 PM)
+// true
 ```
 
 ### Invalid cases:
 
 ```js
-Validate.checkRange(70, {from: 18, to: 65});  // ❌ false (70 is greater than 65)
-Validate.checkRange(-10, {from: 0, to: 100}); // ❌ false (-10 is less than 0)
+Validate.checkRange(70, {from: 18, to: 65});  // false
+Validate.checkRange(-10, {from: 0, to: 100}); // false
 ```
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 * The library checks for valid input types before performing any range checks.
 * Only **numbers** and **BigInt** values (including `Infinity` and `-Infinity`) are accepted.
@@ -94,12 +94,12 @@ Validate.checkRange(-10, {from: 0, to: 100}); // ❌ false (-10 is less than 0)
 
 ---
 
-## ❗ Error Messages (Silent Mode Off)
+## Error Messages (Silent Mode Off)
 
 If silent mode is disabled (`Validate.silent(false)`) and the value is outside the range, a descriptive error will be thrown:
 
 ```js
 Validate.silent(false);
 Validate.checkRange(200, {from: 50, to: 150});
-// ❌ Error: The value 200 is outside the range.
+// Check failed: (checkRange) Value "200" is out of range.
 ```
