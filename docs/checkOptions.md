@@ -5,7 +5,7 @@ It is best suited for **primitive values** such as strings, numbers, booleans, a
 
 ---
 
-## 📌 Usage
+## Usage
 
 ```js
 Validate.checkOptions(value, options);
@@ -20,44 +20,44 @@ Validate.checkOptions(value, options);
 
 ### Return Value
 
-* ✅ Returns `true` if the value matches one of the provided options (strict comparison).
-* ❌ Returns `false` if the value is not found in the list.
+* Returns `true` if the value matches one of the provided options (strict comparison).
+* Returns `false` if the value is not found in the list.
 
 ---
 
-## ✅ Examples
+## Examples
 
 ```js
 // Valid cases
-Validate.checkOptions("single", ["single", "married", "divorced"]); // ✅ true
-Validate.checkOptions(10, [5, 10, 15]);                              // ✅ true
-Validate.checkOptions(false, [true, false]);                         // ✅ true
+Validate.checkOptions("single", ["single", "married", "divorced"]);  // true
+Validate.checkOptions(10, [5, 10, 15]);                              // true
+Validate.checkOptions(false, [true, false]);                         // true
 
 // Invalid cases
-Validate.checkOptions("widowed", ["single", "married", "divorced"]); // ❌ false
-Validate.checkOptions(20, [5, 10, 15]);                               // ❌ false
+Validate.checkOptions("widowed", ["single", "married", "divorced"]);  // false
+Validate.checkOptions(20, [5, 10, 15]);                               // false
 ```
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 * Only **primitive types** (e.g., `string`, `number`, `boolean`, `bigint`) are supported.
 * It **does not support deep comparison** of objects, arrays, or custom structures.
 
 ```js
 Validate.checkOptions([1, 2], [[1, 2], [3, 4]]); 
-// ❌ Value received is not a valid value in checkOptions. Please read README.md for usage details.
+// Error: (checkOptions) Invalid value. See the docs.
 ```
 
 ---
 
-## ❗ Error Messages (Silent Mode Off)
+## Error Messages (Silent Mode Off)
 
 If silent mode is disabled (`Validate.silent(false)`), and the value is not found in the options, a descriptive error will be thrown:
 
 ```js
 Validate.silent(false);
 Validate.checkOptions("unknown", ["yes", "no"]);
-// ❌ Error: Value "unknown" was not found on array.
+// Check failed: (checkOptions) Value "unknown" not found.
 ```
