@@ -207,12 +207,12 @@ class Validate{
 	}
 	
 	checkRange(value, range){
-		if(this.#isInvalidNumber(value)) return this.#errorHandler("checkRange", "range-type");
 		if(typeof range !== "object") this.#throwHandler("checkRange", "object-range");
 		if(!Object.keys(range).includes("from")) this.#throwHandler("checkRange", "from-missing");
 		if(!Object.keys(range).includes("to")) this.#throwHandler("checkRange", "to-missing");
 		if(this.#isInvalidNumber(range.from)) this.#throwHandler("checkRange", "number-from");
 		if(this.#isInvalidNumber(range.to)) this.#throwHandler("checkRange", "number-to");
+		if(this.#isInvalidNumber(value)) return this.#errorHandler("checkRange", "range-type");
 		if(value < range.from || value > range.to) return this.#errorHandler("checkRange", "range-fail", value);
 		return true;
 	}
