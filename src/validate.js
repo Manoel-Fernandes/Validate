@@ -96,9 +96,7 @@ class Validate{
 	
 	// Checking methods
 	#validateNumber(content){
-		if(typeof content === "number" && isNaN(content)) return this.#errorHandler("check", "check-fail", "Number", content);
-		if(content === Infinity || content === -Infinity) return this.#errorHandler("check", "check-fail", "Number", content);
-		if(typeof content !== "number") return this.#errorHandler("check", "check-fail", "Number", content);
+		if(typeof content !== "number" || !Number.isFinite(content)) return this.#errorHandler("check", "check-fail", "Number", content);
 		return true;
 	}
 	
@@ -128,7 +126,7 @@ class Validate{
 	}
 	
 	#validateSymbol(content){
-		if(typeof content !== "symbol") return this.#errorHandler("check", "check-fail", "Symbol", content);
+		if(typeof content !== "symbol")return this.#errorHandler("check", "check-fail", "Symbol", content);
 		return true;
 	}
 	
@@ -149,11 +147,53 @@ class Validate{
 		if(content === -Infinity) return "-Infinity";
 		if(typeof content === "number" && isNaN(content)) return "NaN";
 		if(typeof content === "bigint") return "BigInt";
+		
+		try{if(content instanceof Date && content.getTime() != new Date().getTime()) return "Date";}catch{}
+		try{if(content instanceof RegExp && Array.isArray("validate".match(content))) return "RegExp"}catch{}
+		try{content.set("test",1); if(content instanceof Map && content.get("test") === 1) return "Map"}catch{}
+		try{let foo = {};content.set(foo, 1); if(content instanceof WeakMap && content.get(foo) === 1) return "WeakMap"}catch{}
+		try{content.add(1); if(content instanceof Set && content.has(1)) return "Set";}catch{}
+		try{let obj = {}; content.add(obj); if(content instanceof WeakSet && (content.has(obj) === true)) return "WeakSet"}catch{}
+		
+		if(content instanceof Promise) return "Promise";
+		
+		if(content instanceof Error && / Error\(/.test(content.constructor.toString())) return "Error";
+		if(content instanceof Error && / TypeError\(/.test(content.constructor.toString())) return "TypeError";
+		if(content instanceof Error && / URIError\(/.test(content.constructor.toString())) return "URIError";
+		if(content instanceof Error && / SyntaxError\(/.test(content.constructor.toString())) return "SyntaxError";
+		if(content instanceof Error && / ReferenceError\(/.test(content.constructor.toString())) return "ReferenceError";
+		if(content instanceof Error && / RangeError\(/.test(content.constructor.toString())) return "RangeError";
+		if(content instanceof Error && / EvalError\(/.test(content.constructor.toString())) return "EvalError";
+		
+		if(typeof content === "function"){
+			if(/class\s/.test(Function.prototype.toString.call(content))) return "Class";
+			if(/^\(/.test(content.toString())) return "Function [arrow]";
+			if(/function Object()/.test(content.constructor.toString())) return "Function [arrow]";
+			if(/function AsyncFunction()/.test(content.constructor.toString()) && /^async ?\(/.test(Function.prototype.toString.call(content))) return "Function [async arrow]";
+			if(/function AsyncFunction()/.test(content.constructor.toString())) return "Function [async]";
+			if(!content.prototype) return "Function [arrow]";
+			return "Function";
+		}
+		
 		return false;
 	}
 	
+	#formatInstance(content, type){
+		let funObj = content.constructor.toString();
+		const start = funObj.indexOf(" ");
+		let end;
+		if(type === "class"){
+			end = funObj.indexOf("{");
+		}
+		if(type === "function"){
+			end = funObj.indexOf("(");
+		}
+		const funcName = funObj.slice(start, end).trim();
+		return funcName;
+	}
+	
 	check(content, type){
-		if(type === null || type === undefined) this.#throwHandler("check", "input-check");
+		if(arguments.length < 2) this.#throwHandler("check", "input-check");
 		let checked;
 		const getType = type.toLowerCase();
 		const validInput = ["number", "string", "boolean", "bigint", "undefined", "null", "symbol", "array", "object"];
