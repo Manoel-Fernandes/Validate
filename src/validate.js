@@ -140,6 +140,76 @@ class Validate{
 		return true;
 	}
 	
+	#validatePositiveInfinity(content){
+		if(content !== Infinity){
+			return this.#errorHandler("check", "check-fail", "Infinity", content);
+		}
+		return true;
+	}
+	
+	#validateNegativeInfinity(content){
+		if(content !== -Infinity) return this.#errorHandler("check", "check-fail", "-Infinity", content);
+		return true;
+	}
+	#validateNaN(content){
+		if(!isNaN(content)) return this.#errorHandler("check", "check-fail", "NaN", content);
+		return true;
+	}
+	#validateDate(content){
+		if(content instanceof Date){
+			try{
+				if(String(content.getTime()).slice(0,10) === String(new Date().getTime()).slice(0,10)) return true;
+			}catch{}
+		}
+		return this.#errorHandler("check", "check-fail", "Date", content);
+	}
+	#validateRegExp(content){
+		if(content instanceof RegExp){
+			try{
+				if(Array.isArray("validate".match(content))) return true;
+			}catch{}
+		}
+		return this.#errorHandler("check", "check-fail", "RegExp", content);
+	}
+	#validateMap(content){
+		if(content instanceof Map){
+			try{
+				content.set("test", 1);
+				if(content.get("test") === 1) return true;
+			}catch{}
+		}
+		return this.#errorHandler("check", "check-fail", "Map", content);
+	}
+	#validateSet(content){
+		if(content instanceof Set){
+			try{
+				content.add(1);
+				if(content.has(1)) return true;
+			}catch{}
+		}
+		return this.#errorHandler("check", "check-fail", "Set", content);
+	}
+	
+	#validateWeakMap(content){
+		if(content instanceof WeakMap){
+			try{
+				let foo = {};
+				content.set(foo, 1);
+				if(content.get(foo) === 1) return true;
+			}catch{}
+		}
+		return this.#errorHandler("check", "check-fail", "WeakMap", content);
+	}
+	
+	#validateWeakSet(content){
+		try{
+			let obj = {};
+			content.add(obj);
+			if(content.has(obj) === true) return true;
+		}catch{}
+		return this.#errorHandler("check", "check-fail", "WeakSet", content);
+	}
+	
 	#identifyType(content){
 		if(Array.isArray(content)) return "Array";
 		if(content === null) return "Null";
@@ -148,7 +218,7 @@ class Validate{
 		if(typeof content === "number" && isNaN(content)) return "NaN";
 		if(typeof content === "bigint") return "BigInt";
 		
-		try{if(content instanceof Date && content.getTime() != new Date().getTime()) return "Date";}catch{}
+		try{if(content instanceof Date && content.getTime() === new Date().getTime()) return "Date";}catch{}
 		try{if(content instanceof RegExp && Array.isArray("validate".match(content))) return "RegExp"}catch{}
 		try{content.set("test",1); if(content instanceof Map && content.get("test") === 1) return "Map"}catch{}
 		try{let foo = {};content.set(foo, 1); if(content instanceof WeakMap && content.get(foo) === 1) return "WeakMap"}catch{}
@@ -164,16 +234,6 @@ class Validate{
 		if(content instanceof Error && / ReferenceError\(/.test(content.constructor.toString())) return "ReferenceError";
 		if(content instanceof Error && / RangeError\(/.test(content.constructor.toString())) return "RangeError";
 		if(content instanceof Error && / EvalError\(/.test(content.constructor.toString())) return "EvalError";
-		
-		if(typeof content === "function"){
-			if(/class\s/.test(Function.prototype.toString.call(content))) return "Class";
-			if(/^\(/.test(content.toString())) return "Function [arrow]";
-			if(/function Object()/.test(content.constructor.toString())) return "Function [arrow]";
-			if(/function AsyncFunction()/.test(content.constructor.toString()) && /^async ?\(/.test(Function.prototype.toString.call(content))) return "Function [async arrow]";
-			if(/function AsyncFunction()/.test(content.constructor.toString())) return "Function [async]";
-			if(!content.prototype) return "Function [arrow]";
-			return "Function";
-		}
 		
 		return false;
 	}
@@ -196,7 +256,8 @@ class Validate{
 		if(arguments.length < 2) this.#throwHandler("check", "input-check");
 		let checked;
 		const getType = type.toLowerCase();
-		const validInput = ["number", "string", "boolean", "bigint", "undefined", "null", "symbol", "array", "object"];
+		const validInput = ["number", "string", "boolean", "bigint", "undefined", "null", "symbol", "array", "object",
+		"infinity", "-infinity", "nan", "date", "regexp", "map", "set", "weakmap", "weakset"];
 		if(!validInput.includes(getType)) this.#throwHandler("check", "invalid-check");
 		
 		switch(getType){
@@ -226,6 +287,33 @@ class Validate{
 			break;
 			case "object":
 			checked = this.#validateObject(content);
+			break;
+			case "infinity":
+			checked = this.#validatePositiveInfinity(content);
+			break;
+			case "-infinity":
+			checked = this.#validateNegativeInfinity(content);
+			break;
+			case "nan":
+			checked = this.#validateNaN(content);
+			break;
+			case "date":
+			checked = this.#validateDate(content);
+			break;
+			case "regexp":
+			checked = this.#validateRegExp(content);
+			break;
+			case "map":
+			checked = this.#validateMap(content);
+			break;
+			case "set":
+			checked = this.#validateSet(content);
+			break;
+			case "weakmap":
+			checked = this.#validateWeakMap(content);
+			break;
+			case "weakset":
+			checked = this.#validateWeakSet(content);
 			break;
 		}
 		return checked;
