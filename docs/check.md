@@ -13,7 +13,25 @@ Validate.check(value, type);
 
 * `value` (any): The value to validate.
 * `type` (string): The expected type for the value.
-  Must be one of: `"number"`, `"string"`, `"boolean"`, `"bigint"`, `"undefined"`, `"null"`, `"symbol"`, `"array"`, `"object"`.
+  Must be one of:
+  * `"number"`
+  * `"string"`
+  * `"boolean"`
+  * `"bigint"`
+  * `"undefined"`
+  * `"null"`
+  * `"symbol"`
+  * `"array"`
+  * `"object"`
+  * `"infinity"`
+  * `"-infinity"`
+  * `"nan"`
+  * `"date"`
+  * `"regexp"`
+  * `"map"`
+  * `"set"`
+  * `"weakmap"`
+  * `"weakset"`
 
 
 ### Return Value
