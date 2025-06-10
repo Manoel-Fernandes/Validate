@@ -18,26 +18,33 @@ Validate.getType(Infinity); // "infinity"
 The method returns a string representing the detected type, such as:
 
 - "string"
-
 - "number"
-
 - "boolean"
-
 - "array"
-
 - "object"
-
 - "bigInt"
-
 - "null"
-
 - "undefined"
-
 - "infinity"
-
 - "nan"
-
 - "symbol"
+- "infinity"
+- "-infinity"
+- "date"
+- "regexp"
+- "map"
+- "set"
+- "weakmap"
+- "weakset"
+- "promise"
+- "error"
+- "typeerror"
+- "urierror"
+- "syntaxerror"
+- "referenceerror"
+- "rangeerror"
+- "evalerror"
+
 
 This is useful for error reporting, dynamic validation, or when type inspection is required beyond what typeof offers.
 
