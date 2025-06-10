@@ -1,5 +1,6 @@
 <div align="center">
-	<img src="https://raw.githubusercontent.com/Manoel-Fernandes/Validate/main/assets/validate.png" alt="Validate" height="100px"/>
+	<img src="https://raw.githubusercontent.com/Manoel-Fernandes/Validate/main/assets/validate.png" width="300px" height="90px"/>
+	<br />
 </div>
 
 **Validate** is a lightweight and minimalist JavaScript library designed to validate primitive data types and values.  
