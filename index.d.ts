@@ -9,4 +9,5 @@ export class Validate{
 	getLastError(): string;
 }
 
-export default new Validate();
+declare const validateInstance: Validate;
+export default validateInstance;
