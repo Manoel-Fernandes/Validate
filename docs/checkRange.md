@@ -77,6 +77,14 @@ Validate.checkRange(hour, {from: 8, to: 17});
 // true
 ```
 
+### Valid cases with **String values**:
+
+```js
+let name = "validate";
+Validate.checkRange(name.length, {from: 5, to: 10}); 
+// true
+```
+
 ### Invalid cases:
 
 ```js
