@@ -238,20 +238,6 @@ class Validate{
 		return false;
 	}
 	
-	#formatInstance(content, type){
-		let funObj = content.constructor.toString();
-		const start = funObj.indexOf(" ");
-		let end;
-		if(type === "class"){
-			end = funObj.indexOf("{");
-		}
-		if(type === "function"){
-			end = funObj.indexOf("(");
-		}
-		const funcName = funObj.slice(start, end).trim();
-		return funcName;
-	}
-	
 	check(content, type){
 		if(arguments.length < 2) this.#throwHandler("check", "input-check");
 		let checked;
