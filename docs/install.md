@@ -62,7 +62,7 @@ You can use Validate directly in the browser:
 
 ```html
 <script type="module">
-  import Validate from "https://unpkg.com/@manoelfernandes/validate@1.4.0/build/validate.min.js";
+  import Validate from "https://unpkg.com/@manoelfernandes/validate@1.4.1/build/validate.min.js";
 
   console.log(Validate.check(42, "number")); // true
 </script>
@@ -72,7 +72,7 @@ You can use Validate directly in the browser:
 
 ```html
 <script type="module">
-  import { Validate } from "https://unpkg.com/@manoelfernandes/validate@1.4.0/build/validate.min.js";
+  import { Validate } from "https://unpkg.com/@manoelfernandes/validate@1.4.1/build/validate.min.js";
 
   const validate = new Validate();
   console.log(validate.check(42, "number")); // true
