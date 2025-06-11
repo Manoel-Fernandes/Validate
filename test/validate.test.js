@@ -482,6 +482,310 @@ describe("Validate Object Value", ()=>{
 	});
 });
 
+/////////////////   RegExp   //////////////////////
+
+describe("Validate RegExp", ()=>{
+	const validRegex = new Validate();
+	// RegExp
+	it("Should validate a RegExp", ()=>{
+		let x = new RegExp()
+		expect(() => validRegex.check(x, "RegExp")).not.toThrow();
+	});
+	it("Should validate a RegExp", ()=>{
+		let x = new RegExp()
+		const waitTrue = validRegex.check(x, "regexp");
+		expect(waitTrue).toBe(true);
+	});
+	validRegex.silent(false);
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(123, "regexp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "Number".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check("123", "RegExp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "String".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(true, "RegExp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "Boolean".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(Symbol(), "RegExp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "Symbol".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(null, "RegExp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "Null".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(Infinity, "regexp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "Infinity".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(-Infinity, "regexp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "-Infinity".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check([], "RegExp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "Array".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(123n, "regexp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "BigInt".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> {let x; validRegex.check(x, "regexp");}).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "Undefined".');
+	});
+	it("Should return error when validate a RegExp", () =>{
+		expect(()=> validRegex.check(NaN, "RegExp")).toThrow('Check failed: (check) Type mismatch. Expected "RegExp", got "NaN".');
+	});
+});
+
+/////////////////   Date   //////////////////////
+
+describe("Validate Date", ()=>{
+	const validDate = new Validate();
+	// object
+	it("Should validate an object", ()=>{
+		let thisDate = new Date()
+		expect(() => validDate.check(thisDate, "date")).not.toThrow();
+	});
+	it("Should validate an object", ()=>{
+		const waitTrue = validDate.check(new Date(), "date");
+		expect(waitTrue).toBe(true);
+	});
+	validDate.silent(false);
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(123, "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "Number".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check("123", "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "String".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(true, "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "Boolean".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(Symbol(), "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "Symbol".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(null, "date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "Null".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(Infinity, "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "Infinity".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(-Infinity, "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "-Infinity".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check([], "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "Array".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(123n, "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "BigInt".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> {let x; validDate.check(x, "Date");}).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "Undefined".');
+	});
+	it("Should return error when validate a Date", () =>{
+		expect(()=> validDate.check(NaN, "Date")).toThrow('Check failed: (check) Type mismatch. Expected "Date", got "NaN".');
+	});
+});
+
+/////////////////   Map   //////////////////////
+
+describe("Validate Map", ()=>{
+	const validMap = new Validate();
+	// Map
+	it("Should validate a Map", ()=>{
+		let x = new Map()
+		expect(() => validMap.check(x, "object")).not.toThrow();
+	});
+	it("Should validate a Map", ()=>{
+		let x = new Map()
+		const waitTrue = validMap.check(x, "object");
+		expect(waitTrue).toBe(true);
+	});
+	validMap.silent(false);
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(123, "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "Number".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check("123", "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "String".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(true, "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "Boolean".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(Symbol(), "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "Symbol".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(null, "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "Null".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(Infinity, "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "Infinity".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(-Infinity, "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "-Infinity".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check([], "map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "Array".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(123n, "MAP")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "BigInt".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> {let x; validMap.check(x, "map");}).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "Undefined".');
+	});
+	it("Should return error when validate a Map", () =>{
+		expect(()=> validMap.check(NaN, "Map")).toThrow('Check failed: (check) Type mismatch. Expected "Map", got "NaN".');
+	});
+});
+
+
+/////////////////   Set   //////////////////////
+
+describe("Validate Object Value", ()=>{
+	const validSet = new Validate();
+	// Set
+	it("Should validate an object", ()=>{
+		let x = new Set()
+		expect(() => validSet.check(x, "set")).not.toThrow();
+	});
+	it("Should validate an object", ()=>{
+		let x = new Set()
+		const waitTrue = validSet.check(x, "set");
+		expect(waitTrue).toBe(true);
+	});
+	validSet.silent(false);
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check(123, "set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "Number".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check("123", "SET")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "String".');
+	});
+	it("Should return error when validate a set", () =>{
+		expect(()=> validSet.check(true, "set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "Boolean".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check(Symbol(), "set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "Symbol".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check(null, "set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "Null".');
+	});
+	it("Should return error when validate a set", () =>{
+		expect(()=> validSet.check(Infinity, "set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "Infinity".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check(-Infinity, "Set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "-Infinity".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check([], "set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "Array".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check(123n, "set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "BigInt".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> {let x; validSet.check(x, "set");}).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "Undefined".');
+	});
+	it("Should return error when validate a Set", () =>{
+		expect(()=> validSet.check(NaN, "Set")).toThrow('Check failed: (check) Type mismatch. Expected "Set", got "NaN".');
+	});
+});
+
+
+
+/////////////////   WeakMap   //////////////////////
+
+describe("Validate WeakMap", ()=>{
+	const validWeakMap = new Validate();
+	// WeakMap
+	it("Should validate a WeakMap", ()=>{
+		let x = new WeakMap()
+		expect(() => validWeakMap.check(x, "WeakMap")).not.toThrow();
+	});
+	it("Should validate a WeakMap", ()=>{
+		let x = new WeakMap()
+		const waitTrue = validWeakMap.check(x, "WeakMap");
+		expect(waitTrue).toBe(true);
+	});
+	validWeakMap.silent(false);
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(123, "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "Number".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check("123", "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "String".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(true, "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "Boolean".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(Symbol(), "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "Symbol".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(null, "weakmap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "Null".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(Infinity, "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "Infinity".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(-Infinity, "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "-Infinity".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check([], "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "Array".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(123n, "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "BigInt".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> {let x; validWeakMap.check(x, "WeakMap");}).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "Undefined".');
+	});
+	it("Should return error when validate a WeakMap", () =>{
+		expect(()=> validWeakMap.check(NaN, "WeakMap")).toThrow('Check failed: (check) Type mismatch. Expected "WeakMap", got "NaN".');
+	});
+});
+
+
+
+/////////////////   WeakSet   //////////////////////
+
+describe("Validate WeakSet", ()=>{
+	const validWeakSet = new Validate();
+	// weakset
+	it("Should validate a WeakSet", ()=>{
+		let x = new WeakSet()
+		expect(() => validWeakSet.check(x, "WeakSet")).not.toThrow();
+	});
+	it("Should validate a WeakSet", ()=>{
+		let x = new WeakSet()
+		const waitTrue = validWeakSet.check(x, "WeakSet");
+		expect(waitTrue).toBe(true);
+	});
+	validWeakSet.silent(false);
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(123, "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "Number".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check("123", "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "String".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(true, "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "Boolean".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(Symbol(), "WeakSet")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "Symbol".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(null, "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "Null".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(Infinity, "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "Infinity".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(-Infinity, "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "-Infinity".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check([], "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "Array".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(123n, "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "BigInt".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> {let x; validWeakSet.check(x, "weakset");}).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "Undefined".');
+	});
+	it("Should return error when validate a WeakSet", () =>{
+		expect(()=> validWeakSet.check(NaN, "weakset")).toThrow('Check failed: (check) Type mismatch. Expected "WeakSet", got "NaN".');
+	});
+});
+
 
 ////////////////   False values returned   /////////////////////
 
@@ -749,11 +1053,41 @@ describe("Check getType", () => {
 		let getValue = validGetType.getType(x);
 		expect(getValue).toBe("symbol");
 	});
+	it("Should return 'Date'", () => {
+		let x = new Date()
+		let getValue = validGetType.getType(x);
+		expect(getValue).toBe("date");
+	});
+	it("Should return 'RegExp'", () => {
+		let x = new RegExp()
+		let getValue = validGetType.getType(x);
+		expect(getValue).toBe("regexp");
+	});
+	it("Should return 'Map'", () => {
+		let x = new Map()
+		let getValue = validGetType.getType(x);
+		expect(getValue).toBe("map");
+	});
+	it("Should return 'Set'", () => {
+		let x = new Set()
+		let getValue = validGetType.getType(x);
+		expect(getValue).toBe("set");
+	});
+	it("Should return 'WeakMap'", () => {
+		let x = new WeakMap()
+		let getValue = validGetType.getType(x);
+		expect(getValue).toBe("weakmap");
+	}); 
+	it("Should return 'WeakSet'", () => {
+		let x = new WeakSet()
+		let getValue = validGetType.getType(x);
+		expect(getValue).toBe("weakset");
+	});
 })
 
 
 ///////////////////   getLastError   ///////////////////
-
+  
 describe("Check getLastError", () => {
 	const validLastError = new Validate();
 	
@@ -765,18 +1099,17 @@ describe("Check getLastError", () => {
 		}catch{
 			getTheError = validLastError.getLastError();
 		}
-		expect(getTheError).toMatch(/^Error: \(checkOptions\) Expected an array\./)
+		expect(getTheError).toMatch('Error: (checkOptions) Expected an array.')
 	});
 	it("Should return the last error", () => {
 		validLastError.check("foo", "number");
 		let getTheError = validLastError.getLastError();
-		console.log(getTheError);
-		expect(getTheError).toMatch(/^Check failed: \(check\) Type mismatch. Expected \"Number\", got \"String\"\./)
+		expect(getTheError).toMatch('Check failed: (check) Type mismatch. Expected "Number", got "String".')
 	});
 	it("Should return the last error", () => {
 		validLastError.checkRange("foo", {from: 0, to: 100});
 		let getTheError = validLastError.getLastError();
-		expect(getTheError).toMatch(/^Check failed: \(checkRange\) Only \"number\" or \"bigint\" allowed\./)
+		expect(getTheError).toMatch('Check failed: (checkRange) Only "number" or "bigint" allowed.')
 	});
 	it("Should return the last error", () => {
 		let getTheError
@@ -785,7 +1118,7 @@ describe("Check getLastError", () => {
 		}catch{
 			getTheError = validLastError.getLastError();
 		}
-		expect(getTheError).toMatch(/^Error: \(checkRange\) Key \"to\" is missing\./)
+		expect(getTheError).toMatch('Error: (checkRange) Key "to" is missing.')
 	});
 })
 
