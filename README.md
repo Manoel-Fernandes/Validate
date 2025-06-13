@@ -3,21 +3,10 @@
 </div>
 
 ![npm](https://img.shields.io/npm/v/@manoelfernandes/validate)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 ![Test Status](https://github.com/Manoel-Fernandes/Validate/actions/workflows/node.js.yml/badge.svg)
 ![bundle size](https://img.shields.io/bundlephobia/minzip/@manoelfernandes/validate)
 
-## ⚠️ License Notice
-
-Starting from the next release, this project will be licensed under the **Apache 2.0** license.
-
-I have no intention of closing the source code or limiting its use in any way — the project will remain **100% free**, both for personal and commercial use.
-
-However, it's important to have **legal protection against third parties trying to create patents** based on this project — something the MIT license does not provide. That kind of risk could jeopardize the future of the project, and that's why this change is necessary.
-
-This change **does not affect** anyone already using the library, whether in personal or commercial projects. All previous versions will remain under the original MIT license.
-
-> **In short:** the project is still open and free — now it’s just better protected.
 
 ## What is Validate?
 
@@ -35,4 +24,10 @@ Full documentation is available on [Gitbook](https://manoel-fernandes.gitbook.io
 
 ---
 
-MIT © [Manoel Fernandes](https://github.com/Manoel-Fernandes)
+This project is licensed under the **Apache License 2.0**.  
+See the [LICENSE](https://github.com/Manoel-Fernandes/Validate/blob/main/LICENSE) file for full details.
+
+- MIT applies to all versions **up to and including v1.4.1**
+- Apache 2.0 applies to all versions **from v1.5.0 onward**
+
+© [Manoel Fernandes](https://github.com/Manoel-Fernandes)
