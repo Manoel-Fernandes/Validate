@@ -1,8 +1,19 @@
-/*
- * author: Manoel Fernandes
- * version: 1.4.1
- * license: MIT
- * */
+/**
+ * Copyright 2025 Manoel Fernandes
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 class Validate{
 	#silent = true;
 	#logMessages = [];
@@ -140,6 +151,38 @@ class Validate{
 		return true;
 	}
 	
+	#validateFunction(content){
+		if(typeof content === "function" && /class\s/.test(Function.prototype.toString.call(content))){
+			return this.#errorHandler("check", "check-fail", "Function", content);
+		}
+		if(typeof content !== "function"){
+			if(typeof content === "object"){
+				if(!content.constructor) return this.#errorHandler("check", "check-fail", "Function", content);
+				if(/function Object()/.test(content.constructor.toString())){
+					return this.#errorHandler("check", "check-fail", "Function", content);
+				}
+				if(/class\s/.test(content.constructor.toString()) === true){
+					return this.#errorHandler("check", "check-fail", "Function", content);
+				}
+			}
+			return this.#errorHandler("check", "check-fail", "Function", content);
+		}
+		return true;
+	}
+
+	#validateClass(content){
+		if(typeof content === "function" && /class\s/.test(Function.prototype.toString.call(content))){
+			return true;
+		}
+		if(typeof content === "object"){
+			if(!content.constructor) return this.#errorHandler("check", "check-fail", "Class", content);
+			if(/class\s/.test(content.constructor.toString())){
+				return true;
+			}
+		}
+		return this.#errorHandler("check", "check-fail", "Class", content);
+	}
+	
 	#validatePositiveInfinity(content){
 		if(content !== Infinity){
 			return this.#errorHandler("check", "check-fail", "Infinity", content);
@@ -235,7 +278,44 @@ class Validate{
 		if(content instanceof Error && / RangeError\(/.test(content.constructor.toString())) return "RangeError";
 		if(content instanceof Error && / EvalError\(/.test(content.constructor.toString())) return "EvalError";
 		
+		if(typeof content === "function"){
+			if(/class\s/.test(Function.prototype.toString.call(content))) return "Class";
+			if(/^\(/.test(content.toString())) return "Function [arrow]";
+			if(/function Object()/.test(content.constructor.toString())) return "Function [arrow]";
+			if(/function AsyncFunction()/.test(content.constructor.toString()) && /^async ?\(/.test(Function.prototype.toString.call(content))) return "Function [async arrow]";
+			if(/function AsyncFunction()/.test(content.constructor.toString())) return "Function [async]";
+			if(!content.prototype) return "Function [arrow]";
+			return "Function";
+		}
+		if(typeof content === "object"){
+			if(!content.constructor) return "Object [null]";
+			if(/function Object()/.test(content.constructor.toString())) return "Object";
+			if(/class\s/.test(content.constructor.toString())){
+				return `Class [instance of ${this.#formatInstance(content, "class")}]`;
+			}
+			if(/function\s/.test(Function.prototype.toString(content))){
+				let isNotReal = ["Date", "RegExp", "Map", "Set", "WeakMap", "WeakSet"];
+				let isThatReal = this.#formatInstance(content, "function");
+				if(isNotReal.includes(isThatReal)) return `Function [Fake ${this.#formatInstance(content, "function")}]`;
+				return `Function [instance of ${this.#formatInstance(content, "function")}]`;
+			}
+		}
+		
 		return false;
+	}
+	
+	#formatInstance(content, type){
+		let funObj = content.constructor.toString();
+		const start = funObj.indexOf(" ");
+		let end;
+		if(type === "class"){
+			end = funObj.indexOf("{");
+		}
+		if(type === "function"){
+			end = funObj.indexOf("(");
+		}
+		const funcName = funObj.slice(start, end).trim();
+		return funcName;
 	}
 	
 	check(content, type){
@@ -273,6 +353,12 @@ class Validate{
 			break;
 			case "object":
 			checked = this.#validateObject(content);
+			break;
+			case "function":
+			checked = this.#validateFunction(content);
+			break;
+			case "class":
+			checked = this.#validateClass(content);
 			break;
 			case "infinity":
 			checked = this.#validatePositiveInfinity(content);
