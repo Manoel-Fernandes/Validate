@@ -261,12 +261,44 @@ class Validate{
 		if(typeof content === "number" && isNaN(content)) return "NaN";
 		if(typeof content === "bigint") return "BigInt";
 		
-		try{if(content instanceof Date && content.getTime() === new Date().getTime()) return "Date";}catch{}
-		try{if(content instanceof RegExp && Array.isArray("validate".match(content))) return "RegExp"}catch{}
-		try{content.set("test",1); if(content instanceof Map && content.get("test") === 1) return "Map"}catch{}
-		try{let foo = {};content.set(foo, 1); if(content instanceof WeakMap && content.get(foo) === 1) return "WeakMap"}catch{}
-		try{content.add(1); if(content instanceof Set && content.has(1)) return "Set";}catch{}
-		try{let obj = {}; content.add(obj); if(content instanceof WeakSet && (content.has(obj) === true)) return "WeakSet"}catch{}
+		if(content instanceof Date){
+			try{
+				const acceptable = 20;
+				if(content.getTime() - new Date().getTime() <= acceptable) return "Date";
+			}catch{}
+		}
+		if(content instanceof RegExp){
+			try{
+				if(Array.isArray("validate".match(content))) return "RegExp";
+			}catch{}
+		}
+		
+		if(content instanceof Map){
+			try{
+				content.set("test",1);
+				if(content.get("test") === 1) return "Map";
+			}catch{}
+		} 
+		if(content instanceof WeakMap){
+			try{
+				let foo = {};
+				content.set(foo, 1);
+				if(content.get(foo) === 1) return "WeakMap"
+			}catch{}
+		}
+		if(content instanceof Set){
+			try{
+				content.add(1);
+				if(content.has(1)) return "Set";
+			}catch{}
+		}
+		if(content instanceof WeakSet){
+			try{
+				let obj = {};
+				content.add(obj);
+				if(content.has(obj) === true) return "WeakSet"
+			}catch{}
+		}
 		
 		if(content instanceof Promise) return "Promise";
 		
@@ -289,14 +321,14 @@ class Validate{
 		}
 		if(typeof content === "object"){
 			if(!content.constructor) return "Object [null]";
-			if(/function Object()/.test(content.constructor.toString())) return "Object";
+			if(/^function Object()/.test(content.constructor.toString())) return "Object";
 			if(/class\s/.test(content.constructor.toString())){
 				return `Class [instance of ${this.#formatInstance(content, "class")}]`;
 			}
 			if(/function\s/.test(Function.prototype.toString(content))){
 				let isNotReal = ["Date", "RegExp", "Map", "Set", "WeakMap", "WeakSet"];
 				let isThatReal = this.#formatInstance(content, "function");
-				if(isNotReal.includes(isThatReal)) return `Function [Fake ${this.#formatInstance(content, "function")}]`;
+				if(isNotReal.includes(isThatReal)) return `Fake [${this.#formatInstance(content, "function")}]`;
 				return `Function [instance of ${this.#formatInstance(content, "function")}]`;
 			}
 		}
@@ -323,7 +355,7 @@ class Validate{
 		let checked;
 		const getType = type.toLowerCase();
 		const validInput = ["number", "string", "boolean", "bigint", "undefined", "null", "symbol", "array", "object",
-		"infinity", "-infinity", "nan", "date", "regexp", "map", "set", "weakmap", "weakset"];
+		"infinity", "-infinity", "class", "function", "nan", "date", "regexp", "map", "set", "weakmap", "weakset"];
 		if(!validInput.includes(getType)) this.#throwHandler("check", "invalid-check");
 		
 		switch(getType){
